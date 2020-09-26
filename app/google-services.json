@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "465701420614",
+    "firebase_url": "https://chmd-1cac4.firebaseio.com",
+    "project_id": "chmd-1cac4",
+    "storage_bucket": "chmd-1cac4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465701420614:android:5e06d5bf036c0b1a8c1447",
+        "android_client_info": {
+          "package_name": "mx.edu.chmd1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465701420614-ofkjageenvisi13psn9jvodikgivtcbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mx.edu.chmd1",
+            "certificate_hash": "0acd2f1ea2b8e8edc2722f191892d5e9aaa7042e"
+          }
+        },
+        {
+          "client_id": "465701420614-5pqs0vvg017hk5jqq9ife3m1jmudp7ne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXzF7Ixsxu99D-ZoyUVO5z-r3qv2_Wnm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465701420614-nvj6ojsavp8hhhv1cfvd2di5a8u84b26.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/nav_inicio" android:icon="@drawable/appmenu03" android:title="Inicio" />
+        <item android:id="@+id/nav_leidos" android:icon="@drawable/appmenu04" android:title="Leídos" />
+        <item android:id="@+id/nav_noleidos" android:icon="@drawable/appmenu05" android:title="No leídos" />
+        <item android:id="@+id/nav_favoritos" android:icon="@drawable/appmenu06" android:title="Favoritos" />
+        <item android:id="@+id/nav_papelera" android:icon="@drawable/appmenu07" android:title="Papelera" />
+        <item android:id="@+id/nav_compartir" android:icon="@drawable/appmenu08" android:title="Compartir" />
+        <item android:id="@+id/nav_cerrar" android:icon="@drawable/appmenu09" android:title="Cerrar Sesión" />
+
+    </group>
+
+</menu>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="100">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="75">
+
+        <ImageView
+            android:id="@+id/imgMenu"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_margin="12dp"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/app03" />
+    </RelativeLayout>
+
+</LinearLayout>
