@@ -218,7 +218,7 @@ public class CHMDMessagingService extends FirebaseMessagingService {
             }else{
 
                 intent = new Intent(this, ValidarPadreActivity.class);
-                intent.putExtra("idCircularNotif",21);
+                intent.putExtra("idCircularNotif",idCircular);
                 intent.putExtra("fechaCircularNotif",idCircular);
 
                 intent.putExtra("tituloCircular",title);
