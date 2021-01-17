@@ -43,7 +43,7 @@ public class CircularActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private TabAdapter adapter;
-    private TabLayout tabLayout;
+    public static TabLayout tabLayout;
     private SearchView searchView;
     private Fragment f;
     TextView lblEncabezado;

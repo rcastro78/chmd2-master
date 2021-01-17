@@ -331,6 +331,7 @@ public class NotificacionesFragment extends Fragment {
                             dbCircular.contenido = circulares2.get(i).getContenido();
                             dbCircular.created_at = circulares2.get(i).getFecha1();
                             dbCircular.updated_at = circulares2.get(i).getFecha2();
+
                             Log.w("GUARDANDO",""+dbCircular.save());
                         }
                         try{

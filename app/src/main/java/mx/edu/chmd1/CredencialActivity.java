@@ -31,9 +31,10 @@ import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 
 public class CredencialActivity extends AppCompatActivity {
-ImageView imgFotoPadre,imgQR;
+ImageView imgFotoPadre,imgQR,firma;
 TextView lblNombrePadre,lblPadre,lblNumFam;
 private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/padres/";
+    private static String URL_FIRMA="https://www.chmd.edu.mx/imagenesapp/img/firma.jpg";
     static String BASE_URL;
     static String RUTA;
     SharedPreferences sharedPreferences;
@@ -76,13 +77,16 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
         lblPadre = findViewById(R.id.lblPadre);
         lblNumFam = findViewById(R.id.lblVigencia);
         imgFotoPadre =findViewById(R.id.imgFotoPadre);
+        firma = findViewById(R.id.firma);
         imgQR =findViewById(R.id.imgQR);
         BASE_URL = this.getString(R.string.BASE_URL);
         RUTA = this.getString(R.string.PATH);
         sharedPreferences = getSharedPreferences(this.getString(R.string.SHARED_PREF), 0);
         cifrado = sharedPreferences.getString("cifrado","");
         vigencia = sharedPreferences.getString("vigencia","");
-        lblNombrePadre.setText(sharedPreferences.getString("nombreCredencial","S/N"));
+        String nombrePadre = sharedPreferences.getString("nombreCredencial","S/N");
+        nombrePadre.toLowerCase();
+        lblNombrePadre.setText(nombrePadre);
         lblNumFam.setText("Vigente hasta: "+vigencia);
         lblPadre.setText(sharedPreferences.getString("responsableCredencial","N/A"));
 
@@ -93,6 +97,14 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
         lblPadre.setTypeface(tf);
         lblNumFam.setTypeface(tf);
         String fotoUrl = sharedPreferences.getString("fotoCredencial","");
+
+
+        Glide.with(this)
+                .load(URL_FIRMA)
+                .placeholder(R.drawable.logo2)
+                .error(R.drawable.logo2)
+                .into(firma);
+
         if (fotoUrl.length()<5){
             //No tiene foto
             fotoUrl = "http://chmd.chmd.edu.mx:65083/CREDENCIALES/padres/sinfoto.png";

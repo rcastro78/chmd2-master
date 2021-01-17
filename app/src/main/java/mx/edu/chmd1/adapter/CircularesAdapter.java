@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.activeandroid.query.Select;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import mx.edu.chmd1.R;
 import mx.edu.chmd1.modelos.Circular;
+import mx.edu.chmd1.modelosDB.DBCircular;
 
 public class CircularesAdapter extends BaseAdapter {
     protected Activity activity;
@@ -69,7 +74,8 @@ public class CircularesAdapter extends BaseAdapter {
             holder.lblEncab = convertView.findViewById(R.id.lblEncab);
             holder.lblDia = convertView.findViewById(R.id.lblDia);
             holder.imgCircular = convertView.findViewById(R.id.imgCircular);
-            //holder.imgAdjunto = convertView.findViewById(R.id.imgClip);
+            holder.imgAdjunto = convertView.findViewById(R.id.imgClip);
+            holder.imgCalendario = convertView.findViewById(R.id.imgCalendario);
             holder.llContainer = convertView.findViewById(R.id.llContainer);
             holder.chkSeleccion = convertView.findViewById(R.id.chkSeleccion);
 
@@ -129,6 +135,23 @@ public class CircularesAdapter extends BaseAdapter {
         }
 
         holder.lblEncab.setText(c.getNombre());
+        if(c.getAdjunto()==1){
+            holder.imgAdjunto.setVisibility(View.VISIBLE);
+        }
+        if(c.getAdjunto()==0){
+            holder.imgAdjunto.setVisibility(View.INVISIBLE);
+        }
+
+        ArrayList<DBCircular> dbCirculares = new ArrayList<>();
+        List<DBCircular> list = new Select().from(DBCircular.class).where("idCircular=?",c.getIdCircular()).execute();
+        dbCirculares.addAll(list);
+        Log.d("CIRC",c.getIdCircular()+" rec: "+dbCirculares.get(0).recordatorio + " id: "+dbCirculares.get(0).idCircular);
+        if(dbCirculares.get(0).recordatorio==1){
+            holder.imgCalendario.setVisibility(View.VISIBLE);
+        }else{
+            holder.imgCalendario.setVisibility(View.INVISIBLE);
+        }
+
 
 
               //holder.lblFecha2.setText("");
@@ -156,7 +179,7 @@ public class CircularesAdapter extends BaseAdapter {
 
     static class ViewHolder {
         TextView lblNomCircular,lblEncab,lblDia;
-        ImageView imgCircular,imgAdjunto;
+        ImageView imgCircular,imgAdjunto,imgCalendario;
         LinearLayout llContainer;
         CheckBox chkSeleccion;
 

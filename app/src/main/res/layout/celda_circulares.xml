@@ -137,6 +137,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rlCalendario"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="80">
@@ -146,6 +147,17 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 app:srcCompat="@drawable/clip" />
+
+                            <ImageView
+                                android:id="@+id/imgCalendario"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_below="@+id/imgClip"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="2dp"
+                                app:srcCompat="@drawable/calendar" />
+
                         </RelativeLayout>
 
                     </LinearLayout>

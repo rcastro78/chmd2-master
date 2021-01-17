@@ -33,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.android.material.tabs.TabLayout;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -445,6 +446,7 @@ public class NoLeidosFragment extends Fragment {
                             dbCircular.contenido = circulares2.get(i).getContenido();
                             dbCircular.created_at = circulares2.get(i).getFecha1();
                             dbCircular.updated_at = circulares2.get(i).getFecha2();
+                            dbCircular.recordatorio = 0;
                             Log.w("GUARDANDO",""+dbCircular.save());
                         }
                         try{
@@ -607,6 +609,10 @@ public class NoLeidosFragment extends Fragment {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             Log.d("RESPONSE","ejecutado.-");
+            Intent intent = new Intent(getActivity(),CircularActivity.class);
+            TabLayout.Tab tab = CircularActivity.tabLayout.getTabAt(1);
+            tab.select();
+            startActivity(intent);
         }
 
         @Override

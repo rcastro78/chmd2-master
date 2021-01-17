@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -57,6 +58,7 @@ import org.json.JSONObject;
 import com.bitly.Bitly;
 import com.bitly.Error;
 
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -419,8 +421,9 @@ public class CircularDetalleActivity extends AppCompatActivity {
                                 String title = temaIcs;
                                 String description = "";
                                 String location = ubicacionIcs;
-
+                                new Update(DBCircular.class).set("recordatorio=1").where("idCircular=?",idCircular).execute();
                                 if(!fechaIcs.equalsIgnoreCase("")){
+
                                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     Date sdate = sdf.parse(startDate);
                                     Date edate = sdf.parse(endDate);
@@ -440,6 +443,10 @@ public class CircularDetalleActivity extends AppCompatActivity {
                                     //intent.putExtra(CalendarContract.Events.RRULE, "FREQ=YEARLY");
 
                                     startActivity(intent);
+
+                                    //Actualizar la circular, poner el recordatorio en 1
+
+
 
                                 }else{
                                     Toast.makeText(getApplicationContext(),"No se puede agregar al calendario, no tiene fecha",Toast.LENGTH_LONG).show();
@@ -469,6 +476,21 @@ public class CircularDetalleActivity extends AppCompatActivity {
         wvwDetalleCircular.setWebViewClient(new WebViewClient() {
             @SuppressLint("RestrictedApi")
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                if (url.startsWith("intent")) {
+                    try {
+                        Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+                        String fallbackUrl = intent.getStringExtra("browser_fallback_url");
+                        if (fallbackUrl != null) {
+                            wvwDetalleCircular.loadUrl(fallbackUrl);
+                            return true;
+                        }
+                    } catch (URISyntaxException e) {
+                        //not an intent uri
+                    }
+                }
+
+
                 if (url.endsWith(".pdf")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse(url), "application/pdf");
@@ -477,11 +499,9 @@ public class CircularDetalleActivity extends AppCompatActivity {
                     } catch (ActivityNotFoundException e) {
                         //user does not have a pdf viewer installed
                     }
-
-
-
                 } else {
-                    wvwDetalleCircular.loadUrl(url);
+
+                   wvwDetalleCircular.loadUrl(url);
                 }
                 fabReload.setVisibility(View.VISIBLE);
                 return true;
@@ -2095,7 +2115,7 @@ public void getCircularId(final int id){
 
             long eventId = Long.parseLong(uri.getLastPathSegment());
             Log.d("Ketan_Event_Id", String.valueOf(eventId));
-
+            new Update(DBCircular.class).set("recordatorio=1").where("idCircular=?",idCircular).execute();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
