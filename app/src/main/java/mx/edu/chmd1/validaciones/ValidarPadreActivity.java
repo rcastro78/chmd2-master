@@ -27,6 +27,10 @@ import mx.edu.chmd1.CircularDetalleActivity;
 import mx.edu.chmd1.InicioActivity;
 import mx.edu.chmd1.PrincipalActivity;
 import mx.edu.chmd1.R;
+import mx.edu.chmd1.networking.APIUtils;
+import mx.edu.chmd1.networking.ICircularesCHMD;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ValidarPadreActivity extends AppCompatActivity {
     static String VALIDAR_CUENTA="validarEmail.php";
@@ -36,11 +40,14 @@ public class ValidarPadreActivity extends AppCompatActivity {
     TextView lblMensaje;
     SharedPreferences sharedPreferences;
     String correo,existe;
+    ICircularesCHMD iCircularesCHMD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validar_padre);
         lblMensaje = findViewById(R.id.lblMensaje);
+        iCircularesCHMD = APIUtils.getCircularesService();
+
         BASE_URL = this.getString(R.string.BASE_URL);
         RUTA = this.getString(R.string.PATH);
         sharedPreferences = this.getSharedPreferences(this.getString(R.string.SHARED_PREF), 0);
@@ -91,10 +98,15 @@ public class ValidarPadreActivity extends AppCompatActivity {
             }
 
 
-
-
         }
     }
+
+
+    //Retrofit
+
+
+
+
 
     public void validarCuenta(final String email){
 

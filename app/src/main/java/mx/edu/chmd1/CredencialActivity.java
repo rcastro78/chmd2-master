@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.zxing.BarcodeFormat;
@@ -21,6 +23,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 
 import javax.crypto.Cipher;
@@ -40,7 +43,7 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
     SharedPreferences sharedPreferences;
     String cifrado="",vigencia="";
     int idUsuario=0;
-
+    String fotoCargar="";
 
     @Override
     public void onBackPressed() {
@@ -91,8 +94,6 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
         lblPadre.setText(sharedPreferences.getString("responsableCredencial","N/A"));
 
 
-
-
         lblNombrePadre.setTypeface(tf);
         lblPadre.setTypeface(tf);
         lblNumFam.setTypeface(tf);
@@ -105,14 +106,30 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
                 .error(R.drawable.logo2)
                 .into(firma);
 
-        if (fotoUrl.length()<5){
+        if (fotoUrl.length()<=0){
             //No tiene foto
             fotoUrl = "http://chmd.chmd.edu.mx:65083/CREDENCIALES/padres/sinfoto.png";
-            Glide.with(this)
-                    .load(fotoUrl)
-                    .placeholder(R.drawable.icon_non_profile)
-                    .error(R.drawable.icon_non_profile)
-                    .into(imgFotoPadre);
+            try{
+                URL uri = new URL(fotoUrl);
+                HttpURLConnection huc = (HttpURLConnection) uri.openConnection();
+                int responseCode = huc.getResponseCode();
+                Toast.makeText(getApplicationContext(),""+responseCode,Toast.LENGTH_LONG).show();
+                if(responseCode>400){
+                    if(fotoUrl.contains(".jpg"))
+                        fotoUrl.replace(".jpg",".JPG");
+
+                    if(fotoUrl.contains(".JPG"))
+                        fotoUrl.replace(".JPG",".jpg");
+                }
+                Glide.with(this)
+                        .load(fotoUrl)
+                        .placeholder(R.drawable.icon_non_profile)
+                        .error(R.drawable.icon_non_profile)
+                        .into(imgFotoPadre);
+            }catch (Exception ex){
+                Toast.makeText(getApplicationContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
+            }
+
 
             try{
                 Bitmap bmp = crearQR(fotoUrl);
@@ -123,35 +140,116 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
         }else{
 
             //revisar que el response de la URL no sea 40x
-            int response = getResponseCode(BASE_URL_FOTO+fotoUrl);
+            int response;
 
-            if(response<400){
-                Glide.with(this)
-                        .load(BASE_URL_FOTO+fotoUrl)
-                        .placeholder(R.drawable.icon_non_profile)
-                        .error(R.drawable.icon_non_profile)
-                        .into(imgFotoPadre);
 
-                try{
-                    Bitmap bmp = crearQR(cifrado);
-                    imgQR.setImageBitmap(bmp);
-                }catch(Exception ex){
+
+            final String finalFotoUrl = fotoUrl;
+
+            new Thread() {
+
+                public void run() {
+                    //your "file checking code" goes here like this
+                    //write your results to log cat, since you cant do Toast from threads without handlers also...
+                    fotoCargar = finalFotoUrl;
+
+                    if(!exists(BASE_URL_FOTO+fotoCargar)){
+                        if(fotoCargar.contains(".JPG")) {fotoCargar = fotoCargar.replace(".JPG",".jpg");}
+                        if(fotoCargar.contains(".jpg")) {fotoCargar = fotoCargar.replace(".jpg",".JPG");}
+                    }
+
+                    if(exists(BASE_URL_FOTO+fotoCargar)) {
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Glide.with(CredencialActivity.this)
+                                        .load(BASE_URL_FOTO + fotoCargar)
+                                        .placeholder(R.drawable.icon_non_profile)
+                                        .error(R.drawable.icon_non_profile)
+                                        .into(imgFotoPadre);
+
+                                try{
+                                    Bitmap bmp = crearQR(cifrado);
+                                    imgQR.setImageBitmap(bmp);
+                                }catch(Exception ex){
+                                }
+
+                            }
+                        });
+                    }else{
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Glide.with(CredencialActivity.this)
+                                        .load("http://chmd.chmd.edu.mx:65083/CREDENCIALES/padres/sinfoto.png")
+                                        .placeholder(R.drawable.icon_non_profile)
+                                        .error(R.drawable.icon_non_profile)
+                                        .into(imgFotoPadre);
+
+
+                                try{
+                                    Bitmap bmp = crearQR(cifrado);
+                                    imgQR.setImageBitmap(bmp);
+                                }catch(Exception ex){
+                                }
+                            }
+                        });
+                    }
+
+
+
+                    try {
+                        HttpURLConnection.setFollowRedirects(false);
+                        // note : you may also need
+                        //HttpURLConnection.setInstanceFollowRedirects(false)
+
+                        /*HttpURLConnection con =  (HttpURLConnection) new URL(BASE_URL_FOTO + foto.replace(".jpg",".JPG")).openConnection();
+                        con.setRequestMethod("HEAD");
+                        if( (con.getResponseCode() == HttpURLConnection.HTTP_OK) )
+                            Glide.with(CredencialActivity.this)
+                                    .load(BASE_URL_FOTO+foto.replace(".jpg",".JPG"))
+                                    .placeholder(R.drawable.icon_non_profile)
+                                    .error(R.drawable.icon_non_profile)
+                                    .into(imgFotoPadre);
+                        else
+
+                            Glide.with(CredencialActivity.this)
+                                    .load("http://chmd.chmd.edu.mx:65083/CREDENCIALES/padres/sinfoto.png")
+                                    .placeholder(R.drawable.icon_non_profile)
+                                    .error(R.drawable.icon_non_profile)
+                                    .into(imgFotoPadre);
+
+
+                        try{
+                            Bitmap bmp = crearQR(cifrado);
+                            imgQR.setImageBitmap(bmp);
+                        }catch(Exception ex){
+                        }*/
+
+
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
                 }
-            }else{
-                //La foto no existe, aunque el campo fotografía tenga un valor.
-                fotoUrl = "http://chmd.chmd.edu.mx:65083/CREDENCIALES/padres/sinfoto.png";
-                Glide.with(this)
-                        .load(fotoUrl)
-                        .placeholder(R.drawable.icon_non_profile)
-                        .error(R.drawable.icon_non_profile)
-                        .into(imgFotoPadre);
+            }.start();
 
-                try{
-                    Bitmap bmp = crearQR(cifrado);
-                    imgQR.setImageBitmap(bmp);
-                }catch(Exception ex){
-                }
+
+
+
+
+            response = getResponseCode("http://chmd.chmd.edu.mx:65083/CREDENCIALES/padres/2130.JPG");
+
+
+
+
+
             }
+
+
 
 
         }
@@ -174,8 +272,22 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
                                 editor.putString("familia",familia);
 * */
 
-    }
 
+    public static boolean exists(String URLName){
+        try {
+            HttpURLConnection.setFollowRedirects(false);
+            // note : you may also need
+            //HttpURLConnection.setInstanceFollowRedirects(false)
+
+            HttpURLConnection con =  (HttpURLConnection) new URL(URLName).openConnection();
+            con.setRequestMethod("HEAD");
+            return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     Bitmap crearQR(String str) throws WriterException {
         BitMatrix result;
@@ -201,12 +313,11 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
     }
 
 
-    public static int getResponseCode(String urlString){
+    public int getResponseCode(String urlString){
         try{
             URL u = new URL(urlString);
             HttpURLConnection huc =  (HttpURLConnection)  u.openConnection();
-            huc.setRequestMethod("GET");
-            huc.connect();
+            huc.setRequestMethod("HEAD");
             return huc.getResponseCode();
         }catch (Exception ex){
             return -1;

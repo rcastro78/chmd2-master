@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -121,6 +122,21 @@ public class EliminadasFragment extends Fragment {
                 circulares.clear();
                 getCirculares(idUsuario);// your code
                 pullToRefresh.setRefreshing(false);
+            }
+        });
+
+        //Esto permite mover la lista hacia arriba a pesar de tener pullToRefresh
+        lstCirculares.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem == 0) {
+                    pullToRefresh.setEnabled(true);
+                } else pullToRefresh.setEnabled(false);
             }
         });
 
@@ -294,7 +310,7 @@ public class EliminadasFragment extends Fragment {
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
             String eliminado = String.valueOf(dbCirculares.get(i).eliminada);
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
-
+            String para = String.valueOf(dbCirculares.get(i).para);
             circulares.add(new Circular(idCircular,
                     "Circular No. "+idCircular,
                     nombre,"",
@@ -304,7 +320,8 @@ public class EliminadasFragment extends Fragment {
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
                     contenido,
-                    Integer.parseInt(eliminado)));
+                    Integer.parseInt(eliminado),
+                    para));
 
 
 
@@ -355,6 +372,12 @@ public class EliminadasFragment extends Fragment {
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
+                                String para;
+                                try{
+                                    para=jsonObject.getString("espec");
+                                }catch (Exception ex){
+                                    para="";
+                                }
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -375,7 +398,8 @@ public class EliminadasFragment extends Fragment {
                                         horaFinalIcs,
                                         ubicacionIcs,
                                         Integer.parseInt(adjunto),
-                                        nivel));
+                                        nivel,
+                                        para));
                                 //String idCircular, String encabezado, String nombre,
                                 //                    String textoCircular, String fecha1, String fecha2, String estado
 

@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -179,7 +180,7 @@ public class FavoritosFragment extends Fragment {
 
                             for (int i = 0; i < seleccionados.size(); i++) {
                                 Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
-                                new RegistrarLecturaAsyncTask(c.getIdCircular(),idUsuarioCredencial).execute();
+                                //new RegistrarLecturaAsyncTask(c.getIdCircular(),idUsuarioCredencial).execute();
 
                             }
 
@@ -231,6 +232,23 @@ public class FavoritosFragment extends Fragment {
         });
 
         lstCirculares.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        //Esto permite mover la lista hacia arriba a pesar de tener pullToRefresh
+        lstCirculares.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem == 0) {
+                    pullToRefresh.setEnabled(true);
+                } else pullToRefresh.setEnabled(false);
+            }
+        });
+
+
         lstCirculares.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -359,6 +377,7 @@ public class FavoritosFragment extends Fragment {
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
+                                //String para = jsonObject.getString("espec");
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -381,7 +400,8 @@ public class FavoritosFragment extends Fragment {
                                         horaFinalIcs,
                                         ubicacionIcs,
                                         Integer.parseInt(adjunto),
-                                        nivel));
+                                        nivel,
+                                        "para"));
                                 //String idCircular, String encabezado, String nombre,
                                 //                    String textoCircular, String fecha1, String fecha2, String estado
 

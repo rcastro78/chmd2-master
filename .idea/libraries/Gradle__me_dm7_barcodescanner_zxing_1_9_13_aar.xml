@@ -1,9 +1,17 @@
 <component name="libraryTable">
   <library name="Gradle: me.dm7.barcodescanner:zxing:1.9.13@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/edc968fdc5435b5dbafaab26611488f7/jetified-zxing-1.9.13/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/edc968fdc5435b5dbafaab26611488f7/jetified-zxing-1.9.13/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/edc968fdc5435b5dbafaab26611488f7/jetified-zxing-1.9.13/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3e8c037a51835921f3c96772cec30455/jetified-zxing-1.9.13/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5dbe647b6bff4f4cc90fb8adaf50e58c/jetified-zxing-1.9.13/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5dbe647b6bff4f4cc90fb8adaf50e58c/jetified-zxing-1.9.13/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5dbe647b6bff4f4cc90fb8adaf50e58c/jetified-zxing-1.9.13/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/715c3adf365b5f0733755e6fd54d3188/jetified-zxing-1.9.13/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/715c3adf365b5f0733755e6fd54d3188/jetified-zxing-1.9.13/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/715c3adf365b5f0733755e6fd54d3188/jetified-zxing-1.9.13/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0c4039f28d55f19c3d678966ce23cecb/jetified-zxing-1.9.13/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0c4039f28d55f19c3d678966ce23cecb/jetified-zxing-1.9.13/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0c4039f28d55f19c3d678966ce23cecb/jetified-zxing-1.9.13/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

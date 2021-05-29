@@ -20,7 +20,9 @@ import com.activeandroid.query.Select;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import mx.edu.chmd1.R;
 import mx.edu.chmd1.modelos.Circular;
@@ -78,7 +80,8 @@ public class CircularesAdapter extends BaseAdapter {
             holder.imgCalendario = convertView.findViewById(R.id.imgCalendario);
             holder.llContainer = convertView.findViewById(R.id.llContainer);
             holder.chkSeleccion = convertView.findViewById(R.id.chkSeleccion);
-
+            //agregado RCASTRO 22/04/2021
+            holder.lblPara  = convertView.findViewById(R.id.lblPara);
             holder.chkSeleccion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -102,7 +105,7 @@ public class CircularesAdapter extends BaseAdapter {
         }
 
         holder.lblEncab.setTypeface(tfBold);
-
+        holder.lblPara.setTypeface(tf);
         holder.lblDia.setTypeface(tf);
 
 
@@ -145,22 +148,44 @@ public class CircularesAdapter extends BaseAdapter {
         ArrayList<DBCircular> dbCirculares = new ArrayList<>();
         List<DBCircular> list = new Select().from(DBCircular.class).where("idCircular=?",c.getIdCircular()).execute();
         dbCirculares.addAll(list);
-        Log.d("CIRC",c.getIdCircular()+" rec: "+dbCirculares.get(0).recordatorio + " id: "+dbCirculares.get(0).idCircular);
+        try{
+            Log.d("CIRC",c.getIdCircular()+" rec: "+dbCirculares.get(0).recordatorio + " id: "+dbCirculares.get(0).idCircular);
+
         if(dbCirculares.get(0).recordatorio==1){
             holder.imgCalendario.setVisibility(View.VISIBLE);
         }else{
             holder.imgCalendario.setVisibility(View.INVISIBLE);
         }
+            holder.lblPara.setText("Para:"+dbCirculares.get(0).para);
+        }catch (Exception ex){
+
+        }
 
 
 
               //holder.lblFecha2.setText("");
+
+
+
         final SimpleDateFormat formatoInicio = new SimpleDateFormat("dd/MM/yyyy");
         final SimpleDateFormat formatoDestino = new SimpleDateFormat("EEEE");
+        final SimpleDateFormat formatoDestino2 = new SimpleDateFormat("dd/MM/yyyy");
+
+
         try {
             java.util.Date date1 = formatoInicio.parse(c.getFecha2());
             String strFecha1 = formatoDestino.format(date1);
-            holder.lblDia.setText(strFecha1);
+            String strFecha2 = formatoDestino2.format(date1);
+            Calendar calendar = Calendar. getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String hoy = dateFormat.format(calendar.getTime());
+
+            int dateDifference = (int) diferenciaDias(new SimpleDateFormat("dd/MM/yyyy"), c.getFecha2(), hoy);
+            if(dateDifference<7)
+                holder.lblDia.setText(strFecha1);
+            if(dateDifference>=7)
+                holder.lblDia.setText(strFecha2);
+
         }catch (Exception ex){
 
         }
@@ -173,12 +198,22 @@ public class CircularesAdapter extends BaseAdapter {
     }
 
 
+    public long diferenciaDias(SimpleDateFormat format, String oldDate, String newDate) {
+        try {
+            return TimeUnit.DAYS.convert(format.parse(newDate).getTime() - format.parse(oldDate).getTime(), TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+
     public ArrayList<String> getSeleccionados(){
         return seleccionados;
     }
 
     static class ViewHolder {
-        TextView lblNomCircular,lblEncab,lblDia;
+        TextView lblNomCircular,lblEncab,lblDia,lblPara;
         ImageView imgCircular,imgAdjunto,imgCalendario;
         LinearLayout llContainer;
         CheckBox chkSeleccion;

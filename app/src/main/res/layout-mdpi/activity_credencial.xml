@@ -81,6 +81,7 @@
                             android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
                             android:text="Padre/Madre"
+                            android:textSize="20sp"
                             android:textColor="@color/textoOscuro" />
 
                     </RelativeLayout>
@@ -98,6 +99,7 @@
                             android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
                             android:text="Vigencia"
+                            android:textSize="18sp"
                             android:textColor="@color/textoOscuro" />
 
                     </RelativeLayout>

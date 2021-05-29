@@ -78,8 +78,8 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
 
 public class CircularDetalleActivity extends AppCompatActivity {
-    static String METODO="getCircularId4.php";
-    static String METODO_CIRCULAR="getCircularId4.php";
+    static String METODO="getCircularId6.php";
+    static String METODO_CIRCULAR="getCircularId6.php";
     static String METODO2="getCirculares_iOS.php";
     static String METODO2N="getNotificaciones_iOS.php";
     static String METODO_REG="leerCircular.php";
@@ -385,7 +385,7 @@ public class CircularDetalleActivity extends AppCompatActivity {
                                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                                         shareIntent.setType("text/plain");
                                         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "CHMD");
-                                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Te comparto la circular, \n" + "https://chmd1.page.link"+shortLink.getPath() +"\n\n");
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Comparto:"+ getIntent().getStringExtra("tituloCircular") +" \n" + "https://chmd1.page.link"+shortLink.getPath() +"\n\n");
                                         shareIntent.setPackage("com.whatsapp");
                                         startActivity(shareIntent);
                                     } catch(Exception e) {
@@ -1266,7 +1266,8 @@ public void getCircularId(final int id){
                                         horaFinalIcs,
                                         ubicacionIcs,
                                         Integer.parseInt(adjunto),
-                                        nivel));
+                                        nivel,""
+                                ));
 
 
                             //String idCircular, String encabezado, String nombre,
@@ -1381,6 +1382,7 @@ public void getCircularId(final int id){
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
                                 String nivel = "";
+                                String para = jsonObject.getString("espec");
                                 try{
                                     nivel=jsonObject.getString("nivel");
                                 }catch (Exception ex){
@@ -1402,7 +1404,8 @@ public void getCircularId(final int id){
                                             horaFinalIcs,
                                             ubicacionIcs,
                                             Integer.parseInt(adjunto),
-                                            nivel));
+                                            nivel,
+                                            para));
                                 }
 
                                 //String idCircular, String encabezado, String nombre,
@@ -1482,6 +1485,7 @@ public void getCircularId(final int id){
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
                                 String nivel = "";
+                                String para = jsonObject.getString("espec");
                                 try{
                                     nivel=jsonObject.getString("nivel");
                                 }catch (Exception ex){
@@ -1503,7 +1507,8 @@ public void getCircularId(final int id){
                                             horaFinalIcs,
                                             ubicacionIcs,
                                             Integer.parseInt(adjunto),
-                                            nivel));
+                                            nivel,
+                                            para));
 
 
                                 //String idCircular, String encabezado, String nombre,
@@ -1582,6 +1587,7 @@ public void getCircularId(final int id){
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
+                                String para = jsonObject.getString("espec");
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -1604,7 +1610,8 @@ public void getCircularId(final int id){
                                             horaFinalIcs,
                                             ubicacionIcs,
                                             Integer.parseInt(adjunto),
-                                            nivel));
+                                            nivel,
+                                            para));
                                 }
 
                                 //String idCircular, String encabezado, String nombre,
@@ -1683,6 +1690,7 @@ public void getCircularId(final int id){
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
+                                String para = jsonObject.getString("espec");
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -1705,7 +1713,8 @@ public void getCircularId(final int id){
                                             horaFinalIcs,
                                             ubicacionIcs,
                                             Integer.parseInt(adjunto),
-                                            nivel));
+                                            nivel,
+                                            para));
                                 }
 
                                 //String idCircular, String encabezado, String nombre,
@@ -1785,6 +1794,7 @@ public void getCircularId(final int id){
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
                                 String nivel = "";
+                                String para = jsonObject.getString("espec");
                                 try{
                                     nivel=jsonObject.getString("nivel");
                                 }catch (Exception ex){
@@ -1806,7 +1816,8 @@ public void getCircularId(final int id){
                                             horaFinalIcs,
                                             ubicacionIcs,
                                             Integer.parseInt(adjunto),
-                                            nivel));
+                                            nivel,
+                                            para));
                                 }
 
                                 //String idCircular, String encabezado, String nombre,
@@ -1863,6 +1874,7 @@ public void getCircularId(final int id){
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
             String eliminada = String.valueOf(dbCirculares.get(i).eliminada);
+            String para = dbCirculares.get(i).para;
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
             if(Integer.parseInt(eliminada)==0)
             circulares.add(new Circular(idCircular,
@@ -1873,7 +1885,7 @@ public void getCircularId(final int id){
                     estado,
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
-                    contenido,"","","","","",0,"")
+                    contenido,"","","","","",0,"",para)
                     );
 
             }
@@ -1897,6 +1909,7 @@ public void getCircularId(final int id){
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
             String eliminada = String.valueOf(dbCirculares.get(i).eliminada);
+
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
             if(Integer.parseInt(eliminada)==0)
                 circulares.add(new Circular(idCircular,
@@ -1907,7 +1920,7 @@ public void getCircularId(final int id){
                         estado,
                         Integer.parseInt(leido),
                         Integer.parseInt(favorito),
-                        contenido,"","","","","",0,"")
+                        contenido,"","","","","",0,"","")
                 );
 
         }
@@ -1931,6 +1944,7 @@ public void getCircularId(final int id){
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
             String eliminada = String.valueOf(dbCirculares.get(i).eliminada);
+            String para = dbCirculares.get(i).para;
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
             if(Integer.parseInt(favorito)==1)
             circulares.add(new Circular(idCircular,
@@ -1941,7 +1955,7 @@ public void getCircularId(final int id){
                     estado,
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
-                    contenido,"","","","","",0,"")
+                    contenido,"","","","","",0,"",para)
             );
 
         }
@@ -1965,6 +1979,7 @@ public void getCircularId(final int id){
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
             String eliminada = String.valueOf(dbCirculares.get(i).eliminada);
+            String para = dbCirculares.get(i).para;
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
             if(Integer.parseInt(leido)==0)
                 circulares.add(new Circular(idCircular,
@@ -1975,7 +1990,7 @@ public void getCircularId(final int id){
                         estado,
                         Integer.parseInt(leido),
                         Integer.parseInt(favorito),
-                        contenido,"","","","","",0,"")
+                        contenido,"","","","","",0,"",para)
                 );
 
         }
@@ -1999,6 +2014,7 @@ public void getCircularId(final int id){
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
             String eliminada = String.valueOf(dbCirculares.get(i).eliminada);
+            String para = dbCirculares.get(i).para;
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
             if(Integer.parseInt(eliminada)==1)
                 circulares.add(new Circular(idCircular,
@@ -2009,7 +2025,7 @@ public void getCircularId(final int id){
                         estado,
                         Integer.parseInt(leido),
                         Integer.parseInt(favorito),
-                        contenido,"","","","","",0,"")
+                        contenido,"","","","","",0,"",para)
                 );
 
         }

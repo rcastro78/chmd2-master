@@ -34,4 +34,7 @@ public class DBCircular extends Model {
 
     @Column(name="recordatorio")
     public int recordatorio;
+
+    @Column(name="para")
+    public String para;
 }

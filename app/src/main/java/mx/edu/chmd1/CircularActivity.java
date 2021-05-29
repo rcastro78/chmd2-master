@@ -171,7 +171,7 @@ public class CircularActivity extends AppCompatActivity {
                     }
 
                 }catch (Exception ex){
-                    Toast.makeText(getApplicationContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"ERROR:"+ex.getMessage(),Toast.LENGTH_LONG).show();
                 }
 
 

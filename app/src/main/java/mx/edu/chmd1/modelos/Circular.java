@@ -2,7 +2,7 @@ package mx.edu.chmd1.modelos;
 
 public class Circular {
     private String idCircular;
-    private String encabezado,nombre,textoCircular,nivel;
+    private String encabezado,nombre,textoCircular,nivel,para;
     private String fecha1,fecha2;
     private String estado,contenido;
     private int idCiclo,envio_todos;
@@ -49,7 +49,7 @@ public class Circular {
     public Circular(String idCircular, String encabezado, String nombre,
                     String textoCircular, String fecha1, String fecha2, String estado,
                     int leida,int favorita,String contenido,String temaIcs, String fechaIcs, String horaInicialIcs,
-                    String horaFinalIcs, String ubicacionIcs, int adjunto, String nivel) {
+                    String horaFinalIcs, String ubicacionIcs, int adjunto, String nivel,String para) {
         this.idCircular = idCircular;
         this.encabezado = encabezado;
         this.nombre = nombre;
@@ -67,6 +67,7 @@ public class Circular {
         this.fechaIcs = fechaIcs;
         this.adjunto = adjunto;
         this.nivel = nivel;
+        this.para = para;
 
     }
     public Circular(String idCircular, String encabezado, String nombre,
@@ -85,9 +86,28 @@ public class Circular {
 
     }
 
+
     public Circular(String idCircular, String encabezado, String nombre,
                     String textoCircular, String fecha1, String fecha2, String estado,
-                    int leida,int favorita,String contenido, int eliminada) {
+                    int leida,int favorita,String contenido, String para) {
+        this.idCircular = idCircular;
+        this.encabezado = encabezado;
+        this.nombre = nombre;
+        this.textoCircular = textoCircular;
+        this.fecha1 = fecha1;
+        this.fecha2 = fecha2;
+        this.estado = estado;
+        this.leida = leida;
+        this.favorita = favorita;
+        this.contenido = contenido;
+        this.para = para;
+
+    }
+
+
+    public Circular(String idCircular, String encabezado, String nombre,
+                    String textoCircular, String fecha1, String fecha2, String estado,
+                    int leida,int favorita,String contenido, int eliminada, String para) {
         this.idCircular = idCircular;
         this.encabezado = encabezado;
         this.nombre = nombre;
@@ -99,8 +119,17 @@ public class Circular {
         this.favorita = favorita;
         this.contenido = contenido;
         this.eliminada = eliminada;
+        this.para = para;
     }
 
+
+    public String getPara() {
+        return para;
+    }
+
+    public void setPara(String para) {
+        this.para = para;
+    }
 
     public String getNivel() {
         return nivel;

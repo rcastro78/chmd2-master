@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.security.identity.AccessControlProfileId;
 import android.util.Log;
 import android.view.LayoutInflater;
 
@@ -21,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -60,6 +62,10 @@ import mx.edu.chmd1.R;
 import mx.edu.chmd1.adapter.CircularesAdapter;
 import mx.edu.chmd1.modelos.Circular;
 import mx.edu.chmd1.modelosDB.DBCircular;
+import mx.edu.chmd1.networking.APIUtils;
+import mx.edu.chmd1.networking.ICircularesCHMD;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class TodasCircularesFragment extends Fragment {
 public ListView lstCirculares;
@@ -85,6 +91,7 @@ public CircularesAdapter adapter = null;
     int totalCirculares=0;
     boolean todos=false;
     int idUsuario=0;
+    ICircularesCHMD iCircularesCHMD;
     @Override
     public void onPause() {
         super.onPause();
@@ -111,7 +118,7 @@ public CircularesAdapter adapter = null;
         sharedPreferences = getActivity().getSharedPreferences(this.getString(R.string.SHARED_PREF), 0);
         idUsuarioCredencial = sharedPreferences.getString("idUsuarioCredencial","0");
         idUsuario = Integer.parseInt(idUsuarioCredencial);
-
+        iCircularesCHMD = APIUtils.getCircularesService();
 
         View v = inflater.inflate(R.layout.fragment_circulares, container, false);
         lstCirculares = v.findViewById(R.id.lstCirculares);
@@ -129,6 +136,23 @@ public CircularesAdapter adapter = null;
             }
         });
 
+
+        //Esto permite mover la lista hacia arriba a pesar de tener pullToRefresh
+        lstCirculares.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem == 0) {
+                    pullToRefresh.setEnabled(true);
+                } else pullToRefresh.setEnabled(false);
+            }
+        });
+
+
         imgMoverNoLeidas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,8 +166,8 @@ public CircularesAdapter adapter = null;
                             Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
                             idsSeleccionados.add(c.getIdCircular());
                         }
-                        new NoLeerAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
-
+                        //new NoLeerAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
+                        noLeerCircular(idsSeleccionados,idUsuarioCredencial);
 
 
                     }
@@ -206,8 +230,8 @@ public CircularesAdapter adapter = null;
                                 idsSeleccionados.add(c.getIdCircular());
                             }
 
-                            new RegistrarLecturaAsyncTask(idsSeleccionados,idUsuarioCredencial).execute();
-
+                            //new RegistrarLecturaAsyncTask(idsSeleccionados,idUsuarioCredencial).execute();
+                            leerCircular(idsSeleccionados,idUsuarioCredencial);
 
 
                         }
@@ -325,7 +349,7 @@ public CircularesAdapter adapter = null;
             String favorito =  String.valueOf(dbCirculares.get(i).favorita);
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
-
+            String para = String.valueOf(dbCirculares.get(i).para);
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
 
             circulares.add(new Circular(idCircular,
@@ -336,7 +360,8 @@ public CircularesAdapter adapter = null;
                     estado,
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
-                    contenido));
+                    contenido,
+                    para));
 
 
 
@@ -388,6 +413,7 @@ public CircularesAdapter adapter = null;
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
+                                String para = jsonObject.getString("espec");
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -411,7 +437,8 @@ public CircularesAdapter adapter = null;
                                             horaFinalIcs,
                                             ubicacionIcs,
                                             Integer.parseInt(adjunto),
-                                            nivel));
+                                            nivel,
+                                            para));
                                 }
 
                                 circulares2.add(new Circular(idCircular,
@@ -423,7 +450,8 @@ public CircularesAdapter adapter = null;
                                         Integer.parseInt(leido),
                                         Integer.parseInt(favorito),
                                         contenido,
-                                        Integer.parseInt(eliminada)));
+                                        Integer.parseInt(eliminada),
+                                        para));
 
 
                                 //String idCircular, String encabezado, String nombre,
@@ -467,6 +495,7 @@ public CircularesAdapter adapter = null;
                             dbCircular.contenido = circulares2.get(i).getContenido();
                             dbCircular.created_at = circulares2.get(i).getFecha1();
                             dbCircular.updated_at = circulares2.get(i).getFecha2();
+                            dbCircular.para = circulares2.get(i).getPara();
                             dbCircular.recordatorio = 0;
                             Log.w("GUARDANDO",""+dbCircular.save());
                         }
@@ -575,6 +604,56 @@ public CircularesAdapter adapter = null;
             return null;
         }
     }
+
+
+    private void noLeerCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
+        for(String idCircular:idCirculares) {
+            iCircularesCHMD.noLeerCircular(idCircular, idUsuarioCredencial)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("NO_LEER", "Se marcó como no leída");
+                                //Intent intent = new Intent(getActivity(),CircularActivity.class);
+                                //startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.d("NO_LEER", t.getMessage());
+                        }
+                    });
+        }
+        Intent intent = new Intent(getActivity(),CircularActivity.class);
+        startActivity(intent);
+
+    }
+    private void leerCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
+        for(String idCircular:idCirculares) {
+            iCircularesCHMD.leerCircular(idCircular, idUsuarioCredencial)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("LEER", "Se marcó como no leída");
+                                //Intent intent = new Intent(getActivity(),CircularActivity.class);
+                                //startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.d("LEER", t.getMessage());
+                        }
+                    });
+        }
+        Intent intent = new Intent(getActivity(),CircularActivity.class);
+        startActivity(intent);
+
+    }
+
+
     private class NoLeerAsyncTask extends AsyncTask<Void, Long, Boolean> {
         private ArrayList<String> idCircular;
         private String idUsuario;

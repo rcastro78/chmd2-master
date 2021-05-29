@@ -122,6 +122,7 @@ public class PrincipalActivity extends AppCompatActivity {
                     return;
                 }
                 String token = task.getResult().getToken();
+                Log.w(TAG, "token: "+token);
                 new RegistrarDispositivoAsyncTask(correo,token,"Android OS",idUsuarioCredencial).execute();
             }
         });

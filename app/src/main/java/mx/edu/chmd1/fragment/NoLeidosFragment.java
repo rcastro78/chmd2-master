@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -71,7 +72,7 @@ public class NoLeidosFragment extends Fragment {
     ArrayList<String> idsSeleccionados = new ArrayList<String>();
     static int NOLEIDAS=2;
     private SearchView.OnQueryTextListener queryTextListener;
-    static String METODO="getCircularesUsuarios.php";
+    static String METODO="getCirculares_iOS.php";
     static String METODO_REG="leerCircular.php";
     static String METODO_DEL="eliminarCircular.php";
     static String METODO_FAV="favCircular.php";
@@ -125,6 +126,21 @@ public class NoLeidosFragment extends Fragment {
                 circulares.clear();
                 getCirculares(idUsuario);// your code
                 pullToRefresh.setRefreshing(false);
+            }
+        });
+
+        //Esto permite mover la lista hacia arriba a pesar de tener pullToRefresh
+        lstCirculares.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem == 0) {
+                    pullToRefresh.setEnabled(true);
+                } else pullToRefresh.setEnabled(false);
             }
         });
 
@@ -367,6 +383,7 @@ public class NoLeidosFragment extends Fragment {
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
+                                String para = jsonObject.getString("espec");
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -390,7 +407,8 @@ public class NoLeidosFragment extends Fragment {
                                             horaFinalIcs,
                                             ubicacionIcs,
                                             Integer.parseInt(adjunto),
-                                            nivel));
+                                            nivel,
+                                            para));
                                 }
 
                                 circulares2.add(new Circular(idCircular,
@@ -402,7 +420,8 @@ public class NoLeidosFragment extends Fragment {
                                         Integer.parseInt(leido),
                                         Integer.parseInt(favorito),
                                         contenido,
-                                        Integer.parseInt(eliminada)));
+                                        Integer.parseInt(eliminada),
+                                        para));
 
 
                                 //String idCircular, String encabezado, String nombre,
@@ -446,6 +465,7 @@ public class NoLeidosFragment extends Fragment {
                             dbCircular.contenido = circulares2.get(i).getContenido();
                             dbCircular.created_at = circulares2.get(i).getFecha1();
                             dbCircular.updated_at = circulares2.get(i).getFecha2();
+                            dbCircular.para = circulares2.get(i).getPara();
                             dbCircular.recordatorio = 0;
                             Log.w("GUARDANDO",""+dbCircular.save());
                         }

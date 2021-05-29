@@ -10,9 +10,21 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/31123d44f09d703e4a8266ee1e4e383d/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/31123d44f09d703e4a8266ee1e4e383d/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/31123d44f09d703e4a8266ee1e4e383d/jetified-bitlysdk-1.0.1/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fb8653e79fbd2e1ab52db0595b65db87/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fb8653e79fbd2e1ab52db0595b65db87/jetified-bitlysdk-1.0.1/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fb8653e79fbd2e1ab52db0595b65db87/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/68e935d278ba117f3213518e44871fb1/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/68e935d278ba117f3213518e44871fb1/jetified-bitlysdk-1.0.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/68e935d278ba117f3213518e44871fb1/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0e95a69f9126ea0a75de7331026d744e/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0e95a69f9126ea0a75de7331026d744e/jetified-bitlysdk-1.0.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0e95a69f9126ea0a75de7331026d744e/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/541919416740b0a43702157efea3c696/jetified-bitlysdk-1.0.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/541919416740b0a43702157efea3c696/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/541919416740b0a43702157efea3c696/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/942137b4058172818b7c6f8891622bfd/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/942137b4058172818b7c6f8891622bfd/jetified-bitlysdk-1.0.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/942137b4058172818b7c6f8891622bfd/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5557760e2800b53fde15e45fbddb4f76/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5557760e2800b53fde15e45fbddb4f76/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5557760e2800b53fde15e45fbddb4f76/jetified-bitlysdk-1.0.1/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

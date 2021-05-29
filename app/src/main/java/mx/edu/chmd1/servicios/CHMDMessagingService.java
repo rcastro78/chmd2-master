@@ -1,5 +1,6 @@
 package mx.edu.chmd1.servicios;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -35,6 +36,8 @@ import org.apache.http.util.EntityUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +77,7 @@ public class CHMDMessagingService extends FirebaseMessagingService {
 
 
 
+    @SuppressLint("WrongThread")
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
@@ -106,7 +110,7 @@ public class CHMDMessagingService extends FirebaseMessagingService {
         //Esto trabaja con la app abierta
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext() ,
                 ADMIN_CHANNEL_ID )
-                .setSmallIcon(R.drawable. ic_launcher_foreground )
+                .setSmallIcon(R.drawable.icono_notificaciones)
                 .setContentTitle(remoteMessage.getData().get("title"))
                 .setContentText(remoteMessage.getData().get("body"))
                 .setAutoCancel(true)
@@ -123,7 +127,7 @@ public class CHMDMessagingService extends FirebaseMessagingService {
         assert mNotificationManager != null;
         mNotificationManager.notify(( int ) System. currentTimeMillis () ,
                 mBuilder.build()) ;
-       //Se dispara con la app cerrada
+        //Se dispara con la app cerrada
         String idCircularNt = remoteMessage.getData().get("idCircular");
         //sendNotification(remoteMessage.getData().get("body"),remoteMessage.getData().get("title"),remoteMessage.getData().get("idCircular"));
 
@@ -134,8 +138,10 @@ public class CHMDMessagingService extends FirebaseMessagingService {
                 String messageBody = remoteMessage.getData().get("body");
                 String title = remoteMessage.getData().get("title");
                 notificationIntent = new Intent(getApplicationContext(), ValidarPadreActivity.class);
-                notificationIntent.putExtra("viaNotificacion", viaNotificacion);
-                notificationIntent.putExtra("idCircular", idCircular);
+                notificationIntent.putExtra("idCircularN" , remoteMessage.getData().get("idCircular")) ;
+                notificationIntent.putExtra("viaNotif" , 1);
+                notificationIntent.putExtra("idCircular" , remoteMessage.getData().get("idCircular")) ;
+                notificationIntent.putExtra("viaNotificacion" , 1);
                 //showNotificationMessage(title, messageBody, time, resultIntent, null);
                 sendNotification(remoteMessage,idCircular);
             } catch (Exception e){
@@ -202,38 +208,38 @@ public class CHMDMessagingService extends FirebaseMessagingService {
         Intent intent = null;
         PendingIntent pendingIntent = null;
 
-            if(r.getData()!=null){
-                intent = new Intent(this, ValidarPadreActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("idCircularNotif",r.getData().get("idCircular"));
-                intent.putExtra("viaNotificacion",r.getData().get("viaNotificacion"));
+        if(r.getData()!=null){
+            intent = new Intent(this, ValidarPadreActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("idCircularNotif",r.getData().get("idCircular"));
+            intent.putExtra("viaNotificacion",r.getData().get("viaNotificacion"));
 
-                Log.d("idCircularN",r.getData().get("idCircular"));
+            Log.d("idCircularN",r.getData().get("idCircular"));
 
-                pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                //Con esto colocamos el badge
-                ShortcutBadger.applyCount(getApplicationContext(), 1);
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            //Con esto colocamos el badge
+            ShortcutBadger.applyCount(getApplicationContext(), 1);
 
 
-            }else{
+        }else{
 
-                intent = new Intent(this, ValidarPadreActivity.class);
-                intent.putExtra("idCircularNotif",idCircular);
-                intent.putExtra("fechaCircularNotif",idCircular);
+            intent = new Intent(this, ValidarPadreActivity.class);
+            intent.putExtra("idCircularNotif",idCircular);
+            intent.putExtra("fechaCircularNotif",idCircular);
 
-                intent.putExtra("tituloCircular",title);
-                intent.putExtra("viaNotif",1);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("tituloCircular",title);
+            intent.putExtra("viaNotif",1);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                Calendar c = Calendar.getInstance();
-                String hoy=sdf.format(c.getTime());
-                intent.putExtra("hoy",hoy);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Calendar c = Calendar.getInstance();
+            String hoy=sdf.format(c.getTime());
+            intent.putExtra("hoy",hoy);
 
-                pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                ShortcutBadger.applyCount(getApplicationContext(), 1);
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            ShortcutBadger.applyCount(getApplicationContext(), 1);
 
-            }
+        }
 
 
 

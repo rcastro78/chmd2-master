@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import mx.edu.chmd1.R;
 import mx.edu.chmd1.modelos.Circular;
@@ -105,10 +107,21 @@ public class NotificacionAdapter extends BaseAdapter {
         //holder.lblFecha2.setText("");
         final SimpleDateFormat formatoInicio = new SimpleDateFormat("dd/MM/yyyy");
         final SimpleDateFormat formatoDestino = new SimpleDateFormat("EEEE");
+        final SimpleDateFormat formatoDestino2 = new SimpleDateFormat("dd/MM/yyyy");
         try {
             java.util.Date date1 = formatoInicio.parse(c.getFecha2());
             String strFecha1 = formatoDestino.format(date1);
-            holder.lblDia.setText(strFecha1);
+            String strFecha2 = formatoDestino2.format(date1);
+            Calendar calendar = Calendar. getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String hoy = dateFormat.format(calendar.getTime());
+
+            int dateDifference = (int) diferenciaDias(new SimpleDateFormat("dd/MM/yyyy"), c.getFecha2(), hoy);
+            if(dateDifference<7)
+                holder.lblDia.setText(strFecha1);
+            if(dateDifference>=7)
+                holder.lblDia.setText(strFecha2);
+
         }catch (Exception ex){
 
         }
@@ -117,6 +130,14 @@ public class NotificacionAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public long diferenciaDias(SimpleDateFormat format, String oldDate, String newDate) {
+        try {
+            return TimeUnit.DAYS.convert(format.parse(newDate).getTime() - format.parse(oldDate).getTime(), TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
     public ArrayList<String> getSeleccionados(){
         return seleccionados;

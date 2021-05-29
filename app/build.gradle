@@ -1,13 +1,18 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 29
+
+
+        compileSdkVersion 30
+        buildToolsVersion "30.0.3"
+
+
     defaultConfig {
         applicationId "mx.edu.chmd1"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 6
-        versionName "1.1"
+        targetSdkVersion 30
+        versionCode 7
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -42,17 +47,20 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0-alpha4'
     implementation 'com.google.android.material:material:1.0.0-beta01'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'com.android.volley:volley:1.1.1'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     implementation 'org.apache.httpcomponents:httpmime:4.5.6'
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+
     implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0'
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
     implementation 'com.google.firebase:firebase-invites:17.0.0'
@@ -60,4 +68,4 @@ dependencies {
     implementation "me.leolin:ShortcutBadger:1.1.21@aar"
 }
 
-apply plugin: 'com.google.gms.google-services'
+

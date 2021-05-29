@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mx.edu.chmd1">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -42,10 +43,7 @@
 
         <activity android:name=".CircularDetalleActivity">
             <!-- En la notificación el android:name viene como click_action en notification-->
-            <intent-filter>
-                <action android:name=".CircularDetalleActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+
 
 
             <intent-filter android:autoVerify="true">
@@ -77,9 +75,10 @@
             android:label="@string/title_activity_circular"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".validaciones.ValidarPadreActivity" >
-        <intent-filter>
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="ValidarPadreActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".Padres.PadresActivity" />
@@ -111,7 +110,7 @@
 
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="chmd.db" />
+            android:value="chmd0.db" />
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />

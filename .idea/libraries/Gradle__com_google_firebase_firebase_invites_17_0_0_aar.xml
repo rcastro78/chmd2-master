@@ -1,9 +1,17 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-invites:17.0.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/359dcc0d4ec320f0901449797c33a798/jetified-firebase-invites-17.0.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/359dcc0d4ec320f0901449797c33a798/jetified-firebase-invites-17.0.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/359dcc0d4ec320f0901449797c33a798/jetified-firebase-invites-17.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/16f6ca360a02062db48607d59c2467c5/jetified-firebase-invites-17.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/92faac21868469b60f91af800ecc608a/jetified-firebase-invites-17.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/92faac21868469b60f91af800ecc608a/jetified-firebase-invites-17.0.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/92faac21868469b60f91af800ecc608a/jetified-firebase-invites-17.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/488a774afcd3e154cc7206c09cca1159/jetified-firebase-invites-17.0.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/488a774afcd3e154cc7206c09cca1159/jetified-firebase-invites-17.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/488a774afcd3e154cc7206c09cca1159/jetified-firebase-invites-17.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2736ccd1b486fb37798cb2582e6f916a/jetified-firebase-invites-17.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2736ccd1b486fb37798cb2582e6f916a/jetified-firebase-invites-17.0.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2736ccd1b486fb37798cb2582e6f916a/jetified-firebase-invites-17.0.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-invites/17.0.0/d744794686c273d9fe2fdad77ee686c87a47625b/firebase-invites-17.0.0-javadoc.jar!/" />
