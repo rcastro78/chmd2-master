@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -171,7 +172,12 @@ public class NoLeidosFragment extends Fragment {
 
                                 //new FavAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
                                 favCircular(idsSeleccionados,idUsuarioCredencial);
+                                try {
+                                    Thread.sleep(500);
+                                }catch (Exception ex){
 
+                                }
+                                leeCirculares(idUsuario);
 
                             }
                         });
@@ -209,6 +215,12 @@ public class NoLeidosFragment extends Fragment {
                                 leerCircular(idsSeleccionados,idUsuarioCredencial);
                                 //new RegistrarLecturaAsyncTask(idsSeleccionados,idUsuarioCredencial).execute();
 
+                                try {
+                                    Thread.sleep(500);
+                                }catch (Exception ex){
+
+                                }
+                                leeCirculares(idUsuario);
 
 
                             }
@@ -244,7 +256,12 @@ public class NoLeidosFragment extends Fragment {
                                 }
                                 borrarCircular(idsSeleccionados,idUsuarioCredencial);
                                 //new EliminaAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
+                                try {
+                                    Thread.sleep(500);
+                                }catch (Exception ex){
 
+                                }
+                                leeCirculares(idUsuario);
 
 
                             }
@@ -312,7 +329,7 @@ public class NoLeidosFragment extends Fragment {
     public void leeCirculares(int idUsuario){
         circulares.clear();
         ArrayList<DBCircular> dbCirculares = new ArrayList<>();
-        List<DBCircular> list = new Select().from(DBCircular.class).where("idUsuario=?",idUsuario).execute();
+        List<DBCircular> list = new Select().from(DBCircular.class).where("leida=0 AND favorita=0 AND eliminada=0 AND idUsuario=?",idUsuario).execute();
         dbCirculares.addAll(list);
         //llenar el adapter
         for(int i=0; i<dbCirculares.size(); i++){
@@ -342,10 +359,10 @@ public class NoLeidosFragment extends Fragment {
 
 
         } //fin del for
-        Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
         adapter = new CircularesAdapter(getActivity(),circulares);
         lstCirculares.setAdapter(adapter);
-
+        ((BaseAdapter) lstCirculares.getAdapter()).notifyDataSetChanged();
     }
 
 
@@ -513,7 +530,7 @@ public class NoLeidosFragment extends Fragment {
     }
 
 
-     private void leerCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
+    private void leerCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
         for(String idCircular:idCirculares) {
             iCircularesCHMD.leerCircular(idCircular, idUsuarioCredencial)
                     .enqueue(new Callback<String>() {
@@ -534,14 +551,13 @@ public class NoLeidosFragment extends Fragment {
 
             //Actualizar la base de datos interna
             new Update(DBCircular.class)
-                    .set("leida=1 and favorita=0 and eliminada=0")
+                    .set("leida=1 , favorita=0 , eliminada=0")
                     .where("idCircular=?",idCircular)
                     .execute();
 
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+
 
     }
     private void favCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
@@ -564,13 +580,12 @@ public class NoLeidosFragment extends Fragment {
                     });
 
             new Update(DBCircular.class)
-                    .set("leida=0 and favorita=1 and eliminada=0")
+                    .set("leida=0 , favorita=1 , eliminada=0")
                     .where("idCircular=?",idCircular)
                     .execute();
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+
 
     }
     private void borrarCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
@@ -593,13 +608,12 @@ public class NoLeidosFragment extends Fragment {
                     });
 
             new Update(DBCircular.class)
-                    .set("leida=0 and favorita=0 and eliminada=1")
+                    .set("leida=0 , favorita=0 , eliminada=1")
                     .where("idCircular=?",idCircular)
                     .execute();
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+
 
     }
 

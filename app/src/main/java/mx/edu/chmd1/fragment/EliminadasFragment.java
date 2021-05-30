@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -71,6 +72,7 @@ public class EliminadasFragment extends Fragment {
     ICircularesCHMD iCircularesCHMD;
     ArrayList<Circular> circulares = new ArrayList<>();
     ArrayList<String> seleccionados = new ArrayList<String>();
+    ArrayList<String> idsSeleccionados = new ArrayList<String>();
     ImageView imgMoverFavSeleccionados,imgMoverLeidos,imgMoverNoLeidos,imgEliminarSeleccionados;
     int idUsuario = 0;
     public CircularesAdapter adapter = null;
@@ -162,16 +164,19 @@ public class EliminadasFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-
-                            favCircular(seleccionados,idUsuarioCredencial);
-
-                            /*for (int i = 0; i < seleccionados.size(); i++) {
+                            for (int i = 0; i < seleccionados.size(); i++) {
                                 Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
-                                new FavAsyncTask(c.getIdCircular(),idUsuarioCredencial).execute();
+                                idsSeleccionados.add(c.getIdCircular());
+                            }
 
-                            }*/
 
+                            favCircular(idsSeleccionados,idUsuarioCredencial);
+                            try {
+                                Thread.sleep(500);
+                            }catch (Exception ex){
 
+                            }
+                            leeCirculares(idUsuario);
 
 
                         }
@@ -203,11 +208,25 @@ public class EliminadasFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
+                            for (int i = 0; i < seleccionados.size(); i++) {
+                                Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
+                                idsSeleccionados.add(c.getIdCircular());
+                            }
+
+
                             //for (int i = 0; i < seleccionados.size(); i++) {
                                 //Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
                                 //new RegistrarLecturaAsyncTask(c.getIdCircular(),idUsuarioCredencial).execute();
-                                leerCircular(seleccionados,idUsuarioCredencial);
+                                leerCircular(idsSeleccionados,idUsuarioCredencial);
                             //}
+                            try {
+                                Thread.sleep(500);
+                            }catch (Exception ex){
+
+                            }
+                            leeCirculares(idUsuario);
+
+
 
                         }
                     });
@@ -236,11 +255,24 @@ public class EliminadasFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
+                            for (int i = 0; i < seleccionados.size(); i++) {
+                                Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
+                                idsSeleccionados.add(c.getIdCircular());
+                            }
+
                             //for (int i = 0; i < seleccionados.size(); i++) {
                               //  Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
                               //  new EliminaAsyncTask(c.getIdCircular(),idUsuarioCredencial).execute();
-                                  noLeerCircular(seleccionados,idUsuarioCredencial);
+                                  noLeerCircular(idsSeleccionados,idUsuarioCredencial);
                             //}
+
+                            try {
+                                Thread.sleep(500);
+                            }catch (Exception ex){
+
+                            }
+                            leeCirculares(idUsuario);
+
 
                         }
                     });
@@ -326,13 +358,12 @@ public class EliminadasFragment extends Fragment {
                     });
 
             new Update(DBCircular.class)
-                    .set("leida=0 and favorita=0 and eliminada=0")
+                    .set("leida=0, favorita=0, eliminada=0")
                     .where("idCircular=?",idCircular)
                     .execute();
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+
 
     }
     private void leerCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
@@ -356,14 +387,13 @@ public class EliminadasFragment extends Fragment {
 
             //Actualizar la base de datos interna
             new Update(DBCircular.class)
-                    .set("leida=1 and favorita=0 and eliminada=0")
+                    .set("leida=1 , favorita=0 , eliminada=0")
                     .where("idCircular=?",idCircular)
                     .execute();
 
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+
 
     }
     private void favCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
@@ -386,20 +416,20 @@ public class EliminadasFragment extends Fragment {
                     });
 
             new Update(DBCircular.class)
-                    .set("leida=0 and favorita=1 and eliminada=0")
+                    .set("leida=0 , favorita=1 , eliminada=0")
                     .where("idCircular=?",idCircular)
                     .execute();
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(getActivity(),CircularActivity.class);
+        //startActivity(intent);
 
     }
 
 
 
     public void leeCirculares(int idUsuario){
-
+        circulares.clear();
         ArrayList<DBCircular> dbCirculares = new ArrayList<>();
         List<DBCircular> list = new Select().from(DBCircular.class).where("idUsuario=? AND eliminada=1",idUsuario).execute();
         dbCirculares.addAll(list);
@@ -433,9 +463,10 @@ public class EliminadasFragment extends Fragment {
 
 
         } //fin del for
-        Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
         adapter = new CircularesAdapter(getActivity(),circulares);
         lstCirculares.setAdapter(adapter);
+        ((BaseAdapter) lstCirculares.getAdapter()).notifyDataSetChanged();
 
     }
 

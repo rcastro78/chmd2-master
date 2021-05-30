@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -169,7 +170,12 @@ public CircularesAdapter adapter = null;
                         }
                         //new NoLeerAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
                         noLeerCircular(idsSeleccionados,idUsuarioCredencial);
+                        try {
+                            Thread.sleep(500);
+                        }catch (Exception ex){
 
+                        }
+                        leeCirculares(idUsuario);
 
                     }
                 }
@@ -195,6 +201,13 @@ public CircularesAdapter adapter = null;
 
                                 //new FavAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
                                 favCircular(idsSeleccionados,idUsuarioCredencial);
+                                //recuperarlas de la base de datos para mostrarla
+                                try {
+                                    Thread.sleep(500);
+                                }catch (Exception ex){
+
+                                }
+                                leeCirculares(idUsuario);
 
 
                             }
@@ -233,7 +246,12 @@ public CircularesAdapter adapter = null;
 
                             //new RegistrarLecturaAsyncTask(idsSeleccionados,idUsuarioCredencial).execute();
                             leerCircular(idsSeleccionados,idUsuarioCredencial);
+                            try {
+                                Thread.sleep(500);
+                            }catch (Exception ex){
 
+                            }
+                            leeCirculares(idUsuario);
 
                         }
                     });
@@ -269,7 +287,12 @@ public CircularesAdapter adapter = null;
 
                                 //new EliminaAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
                                 borrarCircular(idsSeleccionados,idUsuarioCredencial);
+                                try {
+                                    Thread.sleep(500);
+                                }catch (Exception ex){
 
+                                }
+                                leeCirculares(idUsuario);
 
                             }
                         });
@@ -367,9 +390,11 @@ public CircularesAdapter adapter = null;
 
 
         } //fin del for
-        Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
         adapter = new CircularesAdapter(getActivity(),circulares);
         lstCirculares.setAdapter(adapter);
+        ((BaseAdapter) lstCirculares.getAdapter()).notifyDataSetChanged();
+
 
     }
 
@@ -557,13 +582,12 @@ public CircularesAdapter adapter = null;
                     });
 
             new Update(DBCircular.class)
-                    .set("leida=0 and favorita=0 and eliminada=0")
+                    .set("leida=0, favorita=0, eliminada=0")
                     .where("idCircular=?",idCircular)
                     .execute();
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+
 
     }
     private void leerCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
@@ -587,14 +611,13 @@ public CircularesAdapter adapter = null;
 
             //Actualizar la base de datos interna
             new Update(DBCircular.class)
-                    .set("leida=1 and favorita=0 and eliminada=0")
+                    .set("leida=1 , favorita=0 , eliminada=0")
                     .where("idCircular=?",idCircular)
                     .execute();
 
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+
 
     }
     private void favCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
@@ -617,13 +640,13 @@ public CircularesAdapter adapter = null;
                     });
 
             new Update(DBCircular.class)
-                    .set("leida=0 and favorita=1 and eliminada=0")
+                    .set("leida=0 , favorita=1 , eliminada=0")
                     .where("idCircular=?",idCircular)
                     .execute();
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(getActivity(),CircularActivity.class);
+        //startActivity(intent);
 
     }
     private void borrarCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
@@ -646,13 +669,13 @@ public CircularesAdapter adapter = null;
                     });
 
             new Update(DBCircular.class)
-                    .set("leida=0 and favorita=0 and eliminada=1")
+                    .set("leida=0 , favorita=0 , eliminada=1")
                     .where("idCircular=?",idCircular)
                     .execute();
 
         }
-        Intent intent = new Intent(getActivity(),CircularActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(getActivity(),CircularActivity.class);
+        //startActivity(intent);
 
     }
 
