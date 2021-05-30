@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -62,6 +63,10 @@ import mx.edu.chmd1.R;
 import mx.edu.chmd1.adapter.CircularesAdapter;
 import mx.edu.chmd1.modelos.Circular;
 import mx.edu.chmd1.modelosDB.DBCircular;
+import mx.edu.chmd1.networking.APIUtils;
+import mx.edu.chmd1.networking.ICircularesCHMD;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class NoLeidosFragment extends Fragment {
     public ListView lstCirculares;
@@ -70,6 +75,7 @@ public class NoLeidosFragment extends Fragment {
     public CircularesAdapter adapter = null;
     ArrayList<String> seleccionados = new ArrayList<String>();
     ArrayList<String> idsSeleccionados = new ArrayList<String>();
+    ICircularesCHMD iCircularesCHMD;
     static int NOLEIDAS=2;
     private SearchView.OnQueryTextListener queryTextListener;
     static String METODO="getCirculares_iOS.php";
@@ -112,7 +118,7 @@ public class NoLeidosFragment extends Fragment {
         idUsuarioCredencial = sharedPreferences.getString("idUsuarioCredencial","0");
         idUsuario = Integer.parseInt(idUsuarioCredencial);
         //Toast.makeText(getActivity().getApplicationContext(),idUsuarioCredencial,Toast.LENGTH_LONG).show();
-
+        iCircularesCHMD = APIUtils.getCircularesService();
         View v = inflater.inflate(R.layout.fragment_circulares_no_leidas, container, false);
         lstCirculares = v.findViewById(R.id.lstCirculares);
         imgMoverFavSeleccionados = v.findViewById(R.id.imgMoverFavSeleccionados);
@@ -163,8 +169,8 @@ public class NoLeidosFragment extends Fragment {
                                     idsSeleccionados.add(c.getIdCircular());
                                 }
 
-                                new FavAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
-
+                                //new FavAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
+                                favCircular(idsSeleccionados,idUsuarioCredencial);
 
 
                             }
@@ -200,8 +206,8 @@ public class NoLeidosFragment extends Fragment {
                                     Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
                                     idsSeleccionados.add(c.getIdCircular());
                                 }
-
-                                new RegistrarLecturaAsyncTask(idsSeleccionados,idUsuarioCredencial).execute();
+                                leerCircular(idsSeleccionados,idUsuarioCredencial);
+                                //new RegistrarLecturaAsyncTask(idsSeleccionados,idUsuarioCredencial).execute();
 
 
 
@@ -236,8 +242,8 @@ public class NoLeidosFragment extends Fragment {
                                     Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
                                     idsSeleccionados.add(c.getIdCircular());
                                 }
-
-                                new EliminaAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
+                                borrarCircular(idsSeleccionados,idUsuarioCredencial);
+                                //new EliminaAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
 
 
 
@@ -507,204 +513,98 @@ public class NoLeidosFragment extends Fragment {
     }
 
 
-    private class FavAsyncTask extends AsyncTask<Void, Long, Boolean> {
-        private ArrayList<String> idCircular;
-        private String idUsuario;
-
-        public FavAsyncTask(ArrayList<String> idCircular, String idUsuario) {
-            this.idCircular = idCircular;
-            this.idUsuario = idUsuario;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.d("RESPONSE","ejecutando...");
-        }
-
-        public void hacerFavorita(String idCircular){
-            HttpClient httpClient;
-            HttpPost httppost;
-            httpClient = new DefaultHttpClient();
-            httppost = new HttpPost(BASE_URL+RUTA+METODO_FAV);
-            try {
-                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
-                nameValuePairs.add(new BasicNameValuePair("circular_id",idCircular));
-                nameValuePairs.add(new BasicNameValuePair("usuario_id",idUsuario));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse response = httpClient.execute(httppost);
-                int responseCode = response.getStatusLine().getStatusCode();
-                Log.d("RESPONSE", ""+responseCode);
-                switch(responseCode) {
-                    case 200:
-                        HttpEntity entity = response.getEntity();
-                        if(entity != null) {
-                            String responseBody = EntityUtils.toString(entity);
-                            rsp=responseBody;
+     private void leerCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
+        for(String idCircular:idCirculares) {
+            iCircularesCHMD.leerCircular(idCircular, idUsuarioCredencial)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("LEER", "Se marcó como no leída");
+                                //Intent intent = new Intent(getActivity(),CircularActivity.class);
+                                //startActivity(intent);
+                            }
                         }
-                        break;
-                }
-                Log.d("RESPONSE", rsp);
 
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.d("LEER", t.getMessage());
+                        }
+                    });
 
-
-
-            }catch (Exception e){
-                Log.d("RESPONSE",e.getMessage());
-            }
-
+            //Actualizar la base de datos interna
+            new Update(DBCircular.class)
+                    .set("leida=1 and favorita=0 and eliminada=0")
+                    .where("idCircular=?",idCircular)
+                    .execute();
 
 
         }
+        Intent intent = new Intent(getActivity(),CircularActivity.class);
+        startActivity(intent);
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            Log.d("RESPONSE","ejecutado.-");
-            Intent intent = new Intent(getActivity(),CircularActivity.class);
-            startActivity(intent);
+    }
+    private void favCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
+        for(String idCircular:idCirculares) {
+            iCircularesCHMD.favCircular(idCircular, idUsuarioCredencial)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("LEER", "Se marcó como no leída");
+                                //Intent intent = new Intent(getActivity(),CircularActivity.class);
+                                //startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.d("LEER", t.getMessage());
+                        }
+                    });
+
+            new Update(DBCircular.class)
+                    .set("leida=0 and favorita=1 and eliminada=0")
+                    .where("idCircular=?",idCircular)
+                    .execute();
+
         }
+        Intent intent = new Intent(getActivity(),CircularActivity.class);
+        startActivity(intent);
 
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            for (String c: idCircular){
-                hacerFavorita(c);
-            }
+    }
+    private void borrarCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
+        for(String idCircular:idCirculares) {
+            iCircularesCHMD.eliminarCircular(idCircular, idUsuarioCredencial)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("LEER", "Se marcó como no leída");
+                                //Intent intent = new Intent(getActivity(),CircularActivity.class);
+                                //startActivity(intent);
+                            }
+                        }
 
-            return null;
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.d("LEER", t.getMessage());
+                        }
+                    });
+
+            new Update(DBCircular.class)
+                    .set("leida=0 and favorita=0 and eliminada=1")
+                    .where("idCircular=?",idCircular)
+                    .execute();
+
         }
+        Intent intent = new Intent(getActivity(),CircularActivity.class);
+        startActivity(intent);
+
     }
 
-    private class RegistrarLecturaAsyncTask extends AsyncTask<Void, Long, Boolean> {
-        private ArrayList<String> idCircular;
-        private String idUsuario;
-
-        public RegistrarLecturaAsyncTask(ArrayList<String> idCircular, String idUsuario) {
-            this.idCircular = idCircular;
-            this.idUsuario = idUsuario;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.d("RESPONSE","ejecutando...");
-        }
-
-        public void registraLectura(String idCircular){
-            HttpClient httpClient;
-            HttpPost httppost;
-            httpClient = new DefaultHttpClient();
-            httppost = new HttpPost(BASE_URL+RUTA+METODO_REG);
-            try {
-                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
-                nameValuePairs.add(new BasicNameValuePair("circular_id",idCircular));
-                nameValuePairs.add(new BasicNameValuePair("usuario_id",idUsuario));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse response = httpClient.execute(httppost);
-                int responseCode = response.getStatusLine().getStatusCode();
-                Log.d("RESPONSE", ""+responseCode);
-                switch(responseCode) {
-                    case 200:
-                        HttpEntity entity = response.getEntity();
-                        if(entity != null) {
-                            String responseBody = EntityUtils.toString(entity);
-                            rsp=responseBody;
-                        }
-                        break;
-                }
-                Log.d("RESPONSE", rsp);
 
 
 
 
-            }catch (Exception e){
-                Log.d("RESPONSE",e.getMessage());
-            }
-
-
-
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            Log.d("RESPONSE","ejecutado.-");
-            Intent intent = new Intent(getActivity(),CircularActivity.class);
-            TabLayout.Tab tab = CircularActivity.tabLayout.getTabAt(1);
-            tab.select();
-            startActivity(intent);
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            for(String c:idCircular)
-                registraLectura(c);
-            return null;
-        }
-    }
-    private class EliminaAsyncTask extends AsyncTask<Void, Long, Boolean> {
-        private ArrayList<String> idCircular;
-        private String idUsuario;
-
-        public EliminaAsyncTask(ArrayList<String> idCircular, String idUsuario) {
-            this.idCircular = idCircular;
-            this.idUsuario = idUsuario;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.d("RESPONSE","ejecutando...");
-        }
-
-        public void registraLectura(String idCircular){
-            HttpClient httpClient;
-            HttpPost httppost;
-            httpClient = new DefaultHttpClient();
-            httppost = new HttpPost(BASE_URL+RUTA+METODO_DEL);
-            try {
-                List<NameValuePair> nameValuePairs = new ArrayList<>(2);
-                nameValuePairs.add(new BasicNameValuePair("circular_id",idCircular));
-                nameValuePairs.add(new BasicNameValuePair("usuario_id",idUsuario));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse response = httpClient.execute(httppost);
-                int responseCode = response.getStatusLine().getStatusCode();
-                Log.d("RESPONSE", ""+responseCode);
-                switch(responseCode) {
-                    case 200:
-                        HttpEntity entity = response.getEntity();
-                        if(entity != null) {
-                            String responseBody = EntityUtils.toString(entity);
-                            rsp=responseBody;
-                        }
-                        break;
-                }
-                Log.d("RESPONSE", rsp);
-
-
-
-
-            }catch (Exception e){
-                Log.d("RESPONSE",e.getMessage());
-            }
-
-
-
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            Log.d("RESPONSE","ejecutado.-");
-            Intent intent = new Intent(getActivity(),CircularActivity.class);
-            startActivity(intent);
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            for(String c:idCircular)
-                registraLectura(c);
-            return null;
-        }
-    }
 }
