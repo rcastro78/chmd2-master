@@ -76,7 +76,7 @@ public class EliminadasFragment extends Fragment {
     ImageView imgMoverFavSeleccionados,imgMoverLeidos,imgMoverNoLeidos,imgEliminarSeleccionados;
     int idUsuario = 0;
     public CircularesAdapter adapter = null;
-    static String METODO="getCircularesUsuarios.php";
+    static String METODO="getCirculares_iOS.php";
     String rsp="";
     static String METODO_REG="leerCircular.php";
     static String METODO_DEL="eliminarCircular.php";
@@ -430,6 +430,8 @@ public class EliminadasFragment extends Fragment {
 
     public void leeCirculares(int idUsuario){
         circulares.clear();
+        seleccionados.clear();
+        idsSeleccionados.clear();
         ArrayList<DBCircular> dbCirculares = new ArrayList<>();
         List<DBCircular> list = new Select().from(DBCircular.class).where("idUsuario=? AND eliminada=1",idUsuario).execute();
         dbCirculares.addAll(list);
@@ -446,6 +448,7 @@ public class EliminadasFragment extends Fragment {
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
             String eliminado = String.valueOf(dbCirculares.get(i).eliminada);
+            String fechaIcs = dbCirculares.get(i).fecha_ics;
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
             String para = String.valueOf(dbCirculares.get(i).para);
             circulares.add(new Circular(idCircular,
@@ -458,7 +461,8 @@ public class EliminadasFragment extends Fragment {
                     Integer.parseInt(favorito),
                     contenido,
                     Integer.parseInt(eliminado),
-                    para));
+                    para,
+                    fechaIcs));
 
 
 
@@ -510,12 +514,25 @@ public class EliminadasFragment extends Fragment {
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
-                                String para;
+
+
+                                String adm = "";
+                                try {
+                                    adm = jsonObject.getString("adm");
+                                    if (adm.equalsIgnoreCase("admin")) {
+                                        adm = "";
+                                    }
+                                }catch (Exception ex){}
+                                String rts ="";
+
                                 try{
-                                    para=jsonObject.getString("espec");
-                                }catch (Exception ex){
-                                    para="";
-                                }
+                                    rts =  jsonObject.getString("rts");
+                                    if(rts.equalsIgnoreCase("rutas")){rts="";}
+                                }catch (Exception ex){}
+
+
+
+                                String para = jsonObject.getString("espec")+" "+adm+" "+rts;
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -552,7 +569,7 @@ public class EliminadasFragment extends Fragment {
                             e.printStackTrace();
 
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    "Error",
+                                    "Error: "+e.getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
                         //TODO: Cambiarlo cuando pase a prueba en MX

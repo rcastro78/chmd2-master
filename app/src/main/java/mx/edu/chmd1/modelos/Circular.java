@@ -72,7 +72,7 @@ public class Circular {
     }
     public Circular(String idCircular, String encabezado, String nombre,
                     String textoCircular, String fecha1, String fecha2, String estado,
-                    int leida,int favorita,String contenido) {
+                    int leida,int favorita,String contenido, String fechaIcs) {
         this.idCircular = idCircular;
         this.encabezado = encabezado;
         this.nombre = nombre;
@@ -83,13 +83,14 @@ public class Circular {
         this.leida = leida;
         this.favorita = favorita;
         this.contenido = contenido;
+        this.fechaIcs = fechaIcs;
 
     }
 
 
     public Circular(String idCircular, String encabezado, String nombre,
                     String textoCircular, String fecha1, String fecha2, String estado,
-                    int leida,int favorita,String contenido, String para) {
+                    int leida,int favorita,String contenido, String para, String fechaIcs) {
         this.idCircular = idCircular;
         this.encabezado = encabezado;
         this.nombre = nombre;
@@ -101,13 +102,14 @@ public class Circular {
         this.favorita = favorita;
         this.contenido = contenido;
         this.para = para;
+        this.fechaIcs = fechaIcs;
 
     }
 
 
     public Circular(String idCircular, String encabezado, String nombre,
                     String textoCircular, String fecha1, String fecha2, String estado,
-                    int leida,int favorita,String contenido, int eliminada, String para) {
+                    int leida,int favorita,String contenido, int eliminada, String para, String fechaIcs) {
         this.idCircular = idCircular;
         this.encabezado = encabezado;
         this.nombre = nombre;
@@ -120,6 +122,7 @@ public class Circular {
         this.contenido = contenido;
         this.eliminada = eliminada;
         this.para = para;
+        this.fechaIcs = fechaIcs;
     }
 
 

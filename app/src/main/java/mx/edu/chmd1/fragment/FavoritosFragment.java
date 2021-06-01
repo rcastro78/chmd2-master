@@ -71,7 +71,7 @@ public class FavoritosFragment extends Fragment {
     public ListView lstCirculares;
     ArrayList<Circular> circulares = new ArrayList<>();
     public CircularesAdapter adapter = null;
-    static String METODO="getCircularesFavoritas.php";
+    static String METODO="getCirculares_iOS.php";
     static String BASE_URL;
     static String RUTA;
     static int FAVORITAS=1;
@@ -336,6 +336,8 @@ public class FavoritosFragment extends Fragment {
 
     public void leeCirculares(int idUsuario){
         circulares.clear();
+        seleccionados.clear();
+        idsSeleccionados.clear();
         ArrayList<DBCircular> dbCirculares = new ArrayList<>();
         List<DBCircular> list = new Select().from(DBCircular.class).where("idUsuario=? AND favorita=1",idUsuario).execute();
         dbCirculares.addAll(list);
@@ -351,7 +353,7 @@ public class FavoritosFragment extends Fragment {
             String favorito =  String.valueOf(dbCirculares.get(i).favorita);
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
-
+            String fechaIcs = dbCirculares.get(i).fecha_ics;
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
 
             circulares.add(new Circular(idCircular,
@@ -362,7 +364,8 @@ public class FavoritosFragment extends Fragment {
                     estado,
                     Integer.parseInt(leido),
                     1,
-                    contenido));
+                    contenido,
+                    fechaIcs));
 
 
 
@@ -413,7 +416,25 @@ public class FavoritosFragment extends Fragment {
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
-                                //String para = jsonObject.getString("espec");
+
+                                String adm = "";
+                                try {
+                                    adm = jsonObject.getString("adm");
+                                    if (adm.equalsIgnoreCase("admin")) {
+                                        adm = "";
+                                    }
+                                }catch (Exception ex){}
+                                String rts ="";
+
+                                try{
+                                    rts =  jsonObject.getString("rts");
+                                    if(rts.equalsIgnoreCase("rutas")){rts="";}
+                                }catch (Exception ex){}
+
+
+
+                                String para = jsonObject.getString("espec")+" "+adm+" "+rts;
+
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -437,7 +458,7 @@ public class FavoritosFragment extends Fragment {
                                         ubicacionIcs,
                                         Integer.parseInt(adjunto),
                                         nivel,
-                                        "para"));
+                                        para));
                                 //String idCircular, String encabezado, String nombre,
                                 //                    String textoCircular, String fecha1, String fecha2, String estado
 
@@ -452,7 +473,7 @@ public class FavoritosFragment extends Fragment {
                             e.printStackTrace();
 
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    "Error",
+                                    "Error: "+e.getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
                         //TODO: Cambiarlo cuando pase a prueba en MX

@@ -149,14 +149,13 @@ public class CircularesAdapter extends BaseAdapter {
         List<DBCircular> list = new Select().from(DBCircular.class).where("idCircular=?",c.getIdCircular()).execute();
         dbCirculares.addAll(list);
         try{
-            Log.d("CIRC",c.getIdCircular()+" rec: "+dbCirculares.get(0).recordatorio + " id: "+dbCirculares.get(0).idCircular);
 
-        if(dbCirculares.get(0).recordatorio==1){
+        if(!c.getFechaIcs().equalsIgnoreCase("")){
             holder.imgCalendario.setVisibility(View.VISIBLE);
         }else{
             holder.imgCalendario.setVisibility(View.INVISIBLE);
         }
-            holder.lblPara.setText("Para:"+dbCirculares.get(0).para);
+            holder.lblPara.setText("Para: "+c.getPara());
         }catch (Exception ex){
 
         }

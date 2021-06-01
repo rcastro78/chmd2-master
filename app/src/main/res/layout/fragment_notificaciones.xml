@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/searchBar"
-            android:layout_weight="100"
+            android:layout_weight="10"
             android:clipChildren="true"
             android:divider="@null"
             android:focusable="false"
@@ -31,7 +31,39 @@
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"></ListView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="90"
+            android:weightSum="10"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
+
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10">
+
+                <ImageView
+                    android:id="@+id/imgEliminarSeleccionados"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="12dp"
+                    android:clickable="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/appmenu07" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

@@ -251,7 +251,7 @@ public class LeidosFragment extends Fragment {
                     estado,
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
-                    contenido));
+                    contenido,""));
 
 
 
@@ -296,7 +296,7 @@ public class LeidosFragment extends Fragment {
                                 String favorito = jsonObject.getString("favorito");
                                 String leido = jsonObject.getString("leido");
                                 String contenido = jsonObject.getString("contenido");
-                                circulares.add(new Circular(idCircular,"Circular No. "+idCircular,nombre,"",strFecha1,strFecha2,estado,Integer.parseInt(leido),Integer.parseInt(favorito),contenido));
+                               // circulares.add(new Circular(idCircular,"Circular No. "+idCircular,nombre,"",strFecha1,strFecha2,estado,Integer.parseInt(leido),Integer.parseInt(favorito),contenido));
                                 //String idCircular, String encabezado, String nombre,
                                 //                    String textoCircular, String fecha1, String fecha2, String estado
 

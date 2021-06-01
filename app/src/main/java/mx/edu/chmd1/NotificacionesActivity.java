@@ -26,7 +26,7 @@ import mx.edu.chmd1.modelosDB.DBNotificacion;
 public class NotificacionesActivity extends AppCompatActivity {
     protected ArrayList<Notificacion> items = new ArrayList<>();
     ListView lstNotificaciones;
-    NotificacionAdapter adapter = null;
+
     TextView lblEncabezado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

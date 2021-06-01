@@ -63,6 +63,7 @@ import mx.edu.chmd1.CircularDetalleActivity;
 import mx.edu.chmd1.R;
 import mx.edu.chmd1.adapter.CircularesAdapter;
 import mx.edu.chmd1.modelos.Circular;
+import mx.edu.chmd1.modelos.Circulares;
 import mx.edu.chmd1.modelosDB.DBCircular;
 import mx.edu.chmd1.networking.APIUtils;
 import mx.edu.chmd1.networking.ICircularesCHMD;
@@ -103,14 +104,13 @@ public CircularesAdapter adapter = null;
     @Override
     public void onResume() {
         super.onResume();
-
-        if(hayConexion()){
-         getCirculares(idUsuario);
-        }
-        else{
+        idUsuarioCredencial = sharedPreferences.getString("idUsuarioCredencial","0");
+        int idUsuario = Integer.parseInt(idUsuarioCredencial);
+        if(hayConexion())
+            getCirculares(idUsuarioCredencial);
+        else
             leeCirculares(idUsuario);
-            Toast.makeText(getActivity().getApplicationContext(),"No hay conexión a Internet",Toast.LENGTH_LONG).show();
-        }
+
           }
 
     @Override
@@ -133,7 +133,7 @@ public CircularesAdapter adapter = null;
             @Override
             public void onRefresh() {
                 circulares.clear();
-                getCirculares(idUsuario);// your code
+                getCirculares(String.valueOf(idUsuario));// your code
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -207,7 +207,7 @@ public CircularesAdapter adapter = null;
                                 }catch (Exception ex){
 
                                 }
-                                leeCirculares(idUsuario);
+                                getCirculares(idUsuarioCredencial);
 
 
                             }
@@ -358,6 +358,8 @@ public CircularesAdapter adapter = null;
 
     public void leeCirculares(int idUsuario){
         circulares.clear();
+        seleccionados.clear();
+        idsSeleccionados.clear();
         ArrayList<DBCircular> dbCirculares = new ArrayList<>();
         List<DBCircular> list = new Select().from(DBCircular.class).where("idUsuario=?",idUsuario).execute();
         dbCirculares.addAll(list);
@@ -374,8 +376,9 @@ public CircularesAdapter adapter = null;
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
             String para = String.valueOf(dbCirculares.get(i).para);
+            String fechaIcs = String.valueOf(dbCirculares.get(i).fecha_ics);
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
-
+            Log.d("FECHA_ICS",dbCirculares.get(i).fecha_ics+" "+dbCirculares.get(i).para);
             circulares.add(new Circular(idCircular,
                     "Circular No. "+idCircular,
                     nombre,"",
@@ -385,7 +388,8 @@ public CircularesAdapter adapter = null;
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
                     contenido,
-                    para));
+                    para,
+                    fechaIcs));
 
 
 
@@ -399,7 +403,11 @@ public CircularesAdapter adapter = null;
     }
 
 
-    public void getCirculares(int usuario_id){
+
+
+
+
+    public void getCirculares(String usuario_id){
 
         final SimpleDateFormat formatoInicio = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final SimpleDateFormat formatoDestino = new SimpleDateFormat("HH:mm:ss");
@@ -439,7 +447,22 @@ public CircularesAdapter adapter = null;
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
-                                String para = jsonObject.getString("espec");
+                                String adm = "";
+                                try {
+                                    adm = jsonObject.getString("adm");
+                                    if (adm.equalsIgnoreCase("admin")) {
+                                        adm = "";
+                                    }
+                                }catch (Exception ex){}
+                                String rts ="";
+
+                                try{
+                                    rts =  jsonObject.getString("rts");
+                                    if(rts.equalsIgnoreCase("rutas")){rts="";}
+                                }catch (Exception ex){}
+
+
+                                String para = jsonObject.getString("espec")+" "+adm+" "+rts;
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -477,7 +500,8 @@ public CircularesAdapter adapter = null;
                                         Integer.parseInt(favorito),
                                         contenido,
                                         Integer.parseInt(eliminada),
-                                        para));
+                                        para,
+                                        fechaIcs));
 
 
                                 //String idCircular, String encabezado, String nombre,
@@ -491,7 +515,7 @@ public CircularesAdapter adapter = null;
                             e.printStackTrace();
 
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    "Error",
+                                    "Error: "+e.getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
                         //TODO: Cambiarlo cuando pase a prueba en MX
@@ -517,13 +541,19 @@ public CircularesAdapter adapter = null;
                             //dbCircular.compartida = circulares.get(i).getCompartida();
                             dbCircular.eliminada = circulares2.get(i).getEliminada();
                             dbCircular.nombre = circulares2.get(i).getNombre();
-                            //dbCircular.textoCircular = circulares.get(i).getTextoCircular();
+                            String f;
+                            try{
+                                f = circulares2.get(i).getFechaIcs();
+                            }catch (Exception ex){
+                                f="";
+                            }
+                            dbCircular.fecha_ics = f;
                             dbCircular.contenido = circulares2.get(i).getContenido();
                             dbCircular.created_at = circulares2.get(i).getFecha1();
                             dbCircular.updated_at = circulares2.get(i).getFecha2();
                             dbCircular.para = circulares2.get(i).getPara();
-                            dbCircular.recordatorio = 0;
-                            Log.w("GUARDANDO",""+dbCircular.save());
+                            dbCircular.save();
+
                         }
                         try{
                             adapter = new CircularesAdapter(getActivity(),circulares);
@@ -678,6 +708,11 @@ public CircularesAdapter adapter = null;
         //startActivity(intent);
 
     }
+
+
+
+
+
 
 
 }

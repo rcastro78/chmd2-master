@@ -25,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -58,27 +59,29 @@ import mx.edu.chmd1.adapter.NotificacionAdapter;
 import mx.edu.chmd1.modelos.Circular;
 import mx.edu.chmd1.modelosDB.DBCircular;
 import mx.edu.chmd1.modelosDB.DBNotificacion;
+import mx.edu.chmd1.networking.APIUtils;
+import mx.edu.chmd1.networking.ICircularesCHMD;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class NotificacionesFragment extends Fragment {
     public ListView lstCirculares;
     public ArrayList<Circular> circulares = new ArrayList<>();
     public ArrayList<Circular> circulares2 = new ArrayList<>();
+    ICircularesCHMD iCircularesCHMD;
     public NotificacionAdapter adapter = null;
     ArrayList<String> seleccionados = new ArrayList<String>();
     ArrayList<String> idsSeleccionados = new ArrayList<String>();
-    private SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
+
     static String METODO="getNotificaciones_iOS.php";
 
-    ImageView imgMoverFavSeleccionados,imgMoverLeidos,imgEliminarSeleccionados,imgMoverNoLeidas;
+    ImageView imgEliminarSeleccionados;
     static String BASE_URL;
     static String RUTA;
-    static int TODAS=0;
-    String rsp;
+
     String idUsuarioCredencial;
     SharedPreferences sharedPreferences;
     int totalCirculares=0;
-    boolean todos=false;
     int idUsuario=0;
     @Override
     public void onPause() {
@@ -95,6 +98,7 @@ public class NotificacionesFragment extends Fragment {
         }
         else{
             leeCirculares(idUsuario);
+            Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
             Toast.makeText(getActivity().getApplicationContext(),"No hay conexión a Internet",Toast.LENGTH_LONG).show();
         }
     }
@@ -106,10 +110,11 @@ public class NotificacionesFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(this.getString(R.string.SHARED_PREF), 0);
         idUsuarioCredencial = sharedPreferences.getString("idUsuarioCredencial","0");
         idUsuario = Integer.parseInt(idUsuarioCredencial);
-
-
+        iCircularesCHMD = APIUtils.getCircularesService();
         View v = inflater.inflate(R.layout.fragment_notificaciones, container, false);
         lstCirculares = v.findViewById(R.id.lstCirculares);
+        imgEliminarSeleccionados = v.findViewById(R.id.imgEliminarSeleccionados);
+
 
         final SwipeRefreshLayout pullToRefresh = v.findViewById(R.id.swiperefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -118,6 +123,63 @@ public class NotificacionesFragment extends Fragment {
                 circulares.clear();
                 getCirculares(idUsuario);// your code
                 pullToRefresh.setRefreshing(false);
+            }
+        });
+
+        lstCirculares.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem == 0) {
+                    pullToRefresh.setEnabled(true);
+                } else pullToRefresh.setEnabled(false);
+            }
+        });
+
+
+        imgEliminarSeleccionados.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(hayConexion()) {
+                    seleccionados = adapter.getSeleccionados();
+                    if (seleccionados.size() > 0) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("¡Advertencia!");
+                        builder.setMessage("¿Estás seguro que quieres eliminar estas notificaciones?");
+                        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = 0; i < seleccionados.size(); i++) {
+                                    Circular c = (Circular) adapter.getItem(Integer.parseInt(seleccionados.get(i)));
+                                    idsSeleccionados.add(c.getIdCircular());
+                                }
+
+                                //new EliminaAsyncTask(idsSeleccionados, idUsuarioCredencial).execute();
+                                borrarCircular(idsSeleccionados,idUsuarioCredencial);
+                                try {
+                                    Thread.sleep(500);
+                                }catch (Exception ex){
+
+                                }
+                                leeCirculares(idUsuario);
+
+                            }
+                        });
+                        builder.setNegativeButton("Cancelar", null);
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    } else {
+                        Toast.makeText(getActivity(), "Debes seleccionar al menos una notificación para utilizar esta opción", Toast.LENGTH_LONG).show();
+                    }
+
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(),"Esta función sólo está disponible con una conexión a Internet",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -185,12 +247,43 @@ public class NotificacionesFragment extends Fragment {
     }
 
 
+    private void borrarCircular(ArrayList<String> idCirculares, String  idUsuarioCredencial) {
+        for(String idCircular:idCirculares) {
+            iCircularesCHMD.eliminarCircular(idCircular, idUsuarioCredencial)
+                    .enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Log.d("LEER", "Se marcó como no leída");
+                                //Intent intent = new Intent(getActivity(),CircularActivity.class);
+                                //startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Log.d("LEER", t.getMessage());
+                        }
+                    });
+
+            new Update(DBCircular.class)
+                    .set("leida=0 , favorita=0 , eliminada=1")
+                    .where("idCircular=?",idCircular)
+                    .execute();
+
+        }
+        //Intent intent = new Intent(getActivity(),CircularActivity.class);
+        //startActivity(intent);
+
+    }
 
 
     public void leeCirculares(int idUsuario){
         circulares.clear();
-        ArrayList<DBCircular> dbCirculares = new ArrayList<>();
-        List<DBCircular> list = new Select().from(DBNotificacion.class).where("idUsuario=?",idUsuario).execute();
+        seleccionados.clear();
+        idsSeleccionados.clear();
+        ArrayList<DBNotificacion> dbCirculares = new ArrayList<>();
+        List<DBNotificacion> list = new Select().from(DBNotificacion.class).where("idUsuario=? AND eliminada=0",idUsuario).execute();
         dbCirculares.addAll(list);
         //llenar el adapter
         for(int i=0; i<dbCirculares.size(); i++){
@@ -204,7 +297,7 @@ public class NotificacionesFragment extends Fragment {
             String favorito =  String.valueOf(dbCirculares.get(i).favorita);
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
-
+            String fechaIcs = "";
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
 
             circulares.add(new Circular(idCircular,
@@ -215,13 +308,13 @@ public class NotificacionesFragment extends Fragment {
                     estado,
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
-                    contenido));
+                    contenido,
+                    fechaIcs));
 
 
 
         } //fin del for
-        Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
-        adapter = new NotificacionAdapter(getActivity(),circulares);
+         adapter = new NotificacionAdapter(getActivity(),circulares);
         lstCirculares.setAdapter(adapter);
 
     }
@@ -268,6 +361,21 @@ public class NotificacionesFragment extends Fragment {
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
                                 String nivel = "";
+
+                                String adm = "";
+                                try {
+                                    adm = jsonObject.getString("adm");
+                                    if (adm.equalsIgnoreCase("admin")) {
+                                        adm = "";
+                                    }
+                                }catch (Exception ex){}
+                                String rts ="";
+
+                                try{
+                                    rts =  jsonObject.getString("rts");
+                                    if(rts.equalsIgnoreCase("rutas")){rts="";}
+                                }catch (Exception ex){}
+                                String para = jsonObject.getString("espec")+" "+adm+" "+rts;
                                 try{
                                     nivel=jsonObject.getString("nivel");
                                 }catch (Exception ex){
@@ -291,7 +399,7 @@ public class NotificacionesFragment extends Fragment {
                                             ubicacionIcs,
                                             Integer.parseInt(adjunto),
                                             nivel,
-                                            ""));
+                                            para));
                                 }
 
                                 circulares2.add(new Circular(idCircular,
@@ -304,7 +412,8 @@ public class NotificacionesFragment extends Fragment {
                                         Integer.parseInt(favorito),
                                         contenido,
                                         Integer.parseInt(eliminada),
-                                        ""));
+                                        para,
+                                        fechaIcs));
 
 
                                 //String idCircular, String encabezado, String nombre,

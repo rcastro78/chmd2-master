@@ -241,12 +241,6 @@ private static String BASE_URL_FOTO="http://chmd.chmd.edu.mx:65083/CREDENCIALES/
 
 
 
-            response = getResponseCode("http://chmd.chmd.edu.mx:65083/CREDENCIALES/padres/2130.JPG");
-
-
-
-
-
             }
 
 

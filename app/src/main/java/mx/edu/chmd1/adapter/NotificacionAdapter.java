@@ -15,14 +15,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.activeandroid.query.Select;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import mx.edu.chmd1.R;
 import mx.edu.chmd1.modelos.Circular;
 import mx.edu.chmd1.modelos.Notificacion;
+import mx.edu.chmd1.modelosDB.DBCircular;
+import mx.edu.chmd1.modelosDB.DBNotificacion;
 
 public class NotificacionAdapter extends BaseAdapter {
     protected Activity activity;
@@ -63,29 +68,54 @@ public class NotificacionAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         c = items.get(position);
-        ViewHolder holder = null;
+        CircularesAdapter.ViewHolder holder = null;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.celda_notificaciones, null);
-            holder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.celda_circulares, null);
+            holder = new CircularesAdapter.ViewHolder();
 
             holder.lblEncab = convertView.findViewById(R.id.lblEncab);
             holder.lblDia = convertView.findViewById(R.id.lblDia);
             holder.imgCircular = convertView.findViewById(R.id.imgCircular);
+            holder.imgAdjunto = convertView.findViewById(R.id.imgClip);
+            holder.imgCalendario = convertView.findViewById(R.id.imgCalendario);
             holder.llContainer = convertView.findViewById(R.id.llContainer);
+            holder.chkSeleccion = convertView.findViewById(R.id.chkSeleccion);
+            //agregado RCASTRO 22/04/2021
+            holder.lblPara  = convertView.findViewById(R.id.lblPara);
+            holder.chkSeleccion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    int getPosition = (Integer) buttonView.getTag();  // Here we get the position that we have set for the checkbox using setTag.
+                    items.get(getPosition).setSelected(buttonView.isChecked());
+                    if (isChecked) {
+                        seleccionados.add(String.valueOf(getPosition));
+
+                    }else{
+                        seleccionados.remove(String.valueOf(getPosition));
+                    }
+                }
+            });
+
+
 
             convertView.setTag(holder);
-
+            convertView.setTag(R.id.chkSeleccion, holder.chkSeleccion);
         }else{
-            holder = (ViewHolder) convertView.getTag();
+            holder = (CircularesAdapter.ViewHolder) convertView.getTag();
         }
 
         holder.lblEncab.setTypeface(tfBold);
-
+        holder.lblPara.setTypeface(tf);
         holder.lblDia.setTypeface(tf);
 
 
-
+       /* if(c.getAdjunto()==1){
+            holder.imgAdjunto.setVisibility(View.VISIBLE);
+        }
+        if(c.getAdjunto()==0){
+            holder.imgAdjunto.setVisibility(View.GONE);
+        }*/
         if(c.getLeida()==1){
             holder.imgCircular.setImageResource(R.drawable.circle_white);
             holder.llContainer.setBackgroundColor(Color.WHITE);
@@ -94,7 +124,14 @@ public class NotificacionAdapter extends BaseAdapter {
             holder.imgCircular.setImageResource(R.drawable.circle);
             holder.llContainer.setBackgroundColor(Color.WHITE);
         }
-
+        if(c.getFavorita()==1){
+            holder.imgCircular.setImageResource(R.drawable.star);
+            holder.llContainer.setBackgroundColor(Color.WHITE);
+        }
+        if(c.getCompartida()==1){
+            holder.imgCircular.setImageResource(R.drawable.appmenu08);
+            holder.llContainer.setBackgroundColor(Color.WHITE);
+        }
 
         if(c.getEliminada()==1){
             holder.imgCircular.setImageResource(R.drawable.basura);
@@ -102,12 +139,39 @@ public class NotificacionAdapter extends BaseAdapter {
         }
 
         holder.lblEncab.setText(c.getNombre());
+        if(c.getAdjunto()==1){
+            holder.imgAdjunto.setVisibility(View.VISIBLE);
+        }
+        if(c.getAdjunto()==0){
+            holder.imgAdjunto.setVisibility(View.INVISIBLE);
+        }
+
+        ArrayList<DBNotificacion> dbCirculares = new ArrayList<>();
+        List<DBNotificacion> list = new Select().from(DBNotificacion.class).where("idCircular=?",c.getIdCircular()).execute();
+        dbCirculares.addAll(list);
+        try{
+
+            if(!c.getFechaIcs().equalsIgnoreCase("")){
+                holder.imgCalendario.setVisibility(View.VISIBLE);
+            }else{
+                holder.imgCalendario.setVisibility(View.INVISIBLE);
+            }
+            holder.lblPara.setText("Para: "+c.getPara());
+        }catch (Exception ex){
+
+        }
+
 
 
         //holder.lblFecha2.setText("");
+
+
+
         final SimpleDateFormat formatoInicio = new SimpleDateFormat("dd/MM/yyyy");
         final SimpleDateFormat formatoDestino = new SimpleDateFormat("EEEE");
         final SimpleDateFormat formatoDestino2 = new SimpleDateFormat("dd/MM/yyyy");
+
+
         try {
             java.util.Date date1 = formatoInicio.parse(c.getFecha2());
             String strFecha1 = formatoDestino.format(date1);
@@ -126,9 +190,13 @@ public class NotificacionAdapter extends BaseAdapter {
 
         }
 
+        holder.chkSeleccion.setTag(position);
+        holder.chkSeleccion.setChecked(items.get(position).isSelected());
+
 
         return convertView;
     }
+
 
     public long diferenciaDias(SimpleDateFormat format, String oldDate, String newDate) {
         try {
@@ -139,14 +207,16 @@ public class NotificacionAdapter extends BaseAdapter {
         }
     }
 
+
     public ArrayList<String> getSeleccionados(){
         return seleccionados;
     }
 
     static class ViewHolder {
-        TextView lblNomCircular,lblEncab,lblDia;
-        ImageView imgCircular,imgAdjunto;
+        TextView lblNomCircular,lblEncab,lblDia,lblPara;
+        ImageView imgCircular,imgAdjunto,imgCalendario;
         LinearLayout llContainer;
+        CheckBox chkSeleccion;
 
 
     }

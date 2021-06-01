@@ -328,6 +328,8 @@ public class NoLeidosFragment extends Fragment {
 
     public void leeCirculares(int idUsuario){
         circulares.clear();
+        seleccionados.clear();
+        idsSeleccionados.clear();
         ArrayList<DBCircular> dbCirculares = new ArrayList<>();
         List<DBCircular> list = new Select().from(DBCircular.class).where("leida=0 AND favorita=0 AND eliminada=0 AND idUsuario=?",idUsuario).execute();
         dbCirculares.addAll(list);
@@ -343,9 +345,9 @@ public class NoLeidosFragment extends Fragment {
             String favorito =  String.valueOf(dbCirculares.get(i).favorita);
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
-
+            String fechaIcs = dbCirculares.get(i).fecha_ics;
+            String para = dbCirculares.get(i).para;
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
-
             circulares.add(new Circular(idCircular,
                     "Circular No. "+idCircular,
                     nombre,"",
@@ -354,7 +356,9 @@ public class NoLeidosFragment extends Fragment {
                     estado,
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
-                    contenido));
+                    contenido,
+                    para,
+                    fechaIcs));
 
 
 
@@ -406,7 +410,22 @@ public class NoLeidosFragment extends Fragment {
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
-                                String para = jsonObject.getString("espec");
+                                String adm = "";
+                                try {
+                                    adm = jsonObject.getString("adm");
+                                    if (adm.equalsIgnoreCase("admin")) {
+                                        adm = "";
+                                    }
+                                }catch (Exception ex){}
+                                String rts ="";
+
+                                try{
+                                    rts =  jsonObject.getString("rts");
+                                    if(rts.equalsIgnoreCase("rutas")){rts="";}
+                                }catch (Exception ex){}
+
+
+                                String para = jsonObject.getString("espec")+" "+adm+" "+rts;
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
@@ -444,7 +463,8 @@ public class NoLeidosFragment extends Fragment {
                                         Integer.parseInt(favorito),
                                         contenido,
                                         Integer.parseInt(eliminada),
-                                        para));
+                                        para,
+                                        fechaIcs));
 
 
                                 //String idCircular, String encabezado, String nombre,
@@ -458,7 +478,7 @@ public class NoLeidosFragment extends Fragment {
                             e.printStackTrace();
 
                             Toast.makeText(getActivity().getApplicationContext(),
-                                    "Error",
+                                    "Error: "+e.getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
                         //TODO: Cambiarlo cuando pase a prueba en MX
@@ -469,29 +489,7 @@ public class NoLeidosFragment extends Fragment {
                         new Delete().from(DBCircular.class).execute();
                         int maxRecuento = totalCirculares;
 
-                        for(int i=0; i<maxRecuento; i++){
-                            DBCircular dbCircular = new DBCircular();
-                            dbCircular.idCircular = circulares2.get(i).getIdCircular();
-                            dbCircular.leida = circulares2.get(i).getLeida();
-                            if (circulares2.get(i).getLeida()==1){
-                                dbCircular.no_leida = 0;
-                            }
-                            if (circulares2.get(i).getLeida()==0){
-                                dbCircular.no_leida = 1;
-                            }
-                            dbCircular.idUsuario = idUsuario;
-                            dbCircular.favorita = circulares2.get(i).getFavorita();
-                            //dbCircular.compartida = circulares.get(i).getCompartida();
-                            dbCircular.eliminada = circulares2.get(i).getEliminada();
-                            dbCircular.nombre = circulares2.get(i).getNombre();
-                            //dbCircular.textoCircular = circulares.get(i).getTextoCircular();
-                            dbCircular.contenido = circulares2.get(i).getContenido();
-                            dbCircular.created_at = circulares2.get(i).getFecha1();
-                            dbCircular.updated_at = circulares2.get(i).getFecha2();
-                            dbCircular.para = circulares2.get(i).getPara();
-                            dbCircular.recordatorio = 0;
-                            Log.w("GUARDANDO",""+dbCircular.save());
-                        }
+
                         try{
                             adapter = new CircularesAdapter(getActivity(),circulares);
                             lstCirculares.setAdapter(adapter);
