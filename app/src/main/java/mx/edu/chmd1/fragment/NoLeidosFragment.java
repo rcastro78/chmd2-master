@@ -403,13 +403,19 @@ public class NoLeidosFragment extends Fragment {
                                 String leido = jsonObject.getString("leido");
                                 String contenido = jsonObject.getString("contenido");
                                 String eliminada = jsonObject.getString("eliminado");
-
+                                String enviaTodos = jsonObject.getString("envia_todos");
                                 String temaIcs = jsonObject.getString("tema_ics");
                                 String fechaIcs = jsonObject.getString("fecha_ics");
                                 String horaInicialIcs = jsonObject.getString("hora_inicial_ics");
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
+                                String grados  = "";
+                                try{
+                                    grados = jsonObject.getString("grados");
+                                }catch (Exception ex){
+
+                                }
                                 String adm = "";
                                 try {
                                     adm = jsonObject.getString("adm");
@@ -418,20 +424,42 @@ public class NoLeidosFragment extends Fragment {
                                     }
                                 }catch (Exception ex){}
                                 String rts ="";
-
+                                String para="";
                                 try{
                                     rts =  jsonObject.getString("rts");
                                     if(rts.equalsIgnoreCase("rutas")){rts="";}
                                 }catch (Exception ex){}
+                                String espec = jsonObject.getString("espec");
 
 
-                                String para = jsonObject.getString("espec")+" "+adm+" "+rts;
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
                                 }catch (Exception ex){
                                     nivel="";
                                 }
+                                if(nivel.length()>0) {nivel="nivel: "+nivel+"/";}
+                                if(grados.length()>0) {grados=" para: "+grados+"/";}
+                                if(espec.length()>0) {espec=espec+"/";}
+                                if(adm.length()>0) {adm=adm+"/";}
+                                if(rts.length()>0) {espec=rts+"/";}
+
+                                para = nivel+grados+espec+adm+rts;
+                                try {
+                                    para = para.substring(0, para.length() - 1);
+                                }catch (Exception ex){
+                                    Log.d("PARA",ex.getMessage());
+                                }
+
+                                if(enviaTodos.equalsIgnoreCase("0") && adm.equalsIgnoreCase("")
+                                        && rts.equalsIgnoreCase("") && espec.equalsIgnoreCase("")
+                                        && grados.equalsIgnoreCase("") & nivel.equalsIgnoreCase("")){
+                                    para = "Personal";
+                                }
+
+                                if(enviaTodos.equalsIgnoreCase("1")){para="Todos";}
+
+
                                 //No mostrar las eliminadas ni favoritas
                                 if(Integer.parseInt(leido)==0 && Integer.parseInt(favorito)==0){
                                     circulares.add(new Circular(idCircular,

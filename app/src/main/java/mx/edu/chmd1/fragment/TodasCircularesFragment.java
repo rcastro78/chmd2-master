@@ -122,6 +122,10 @@ public CircularesAdapter adapter = null;
         idUsuario = Integer.parseInt(idUsuarioCredencial);
         iCircularesCHMD = APIUtils.getCircularesService();
 
+        //if(!hayConexion())
+        //    getCircularesSinConexion();
+
+
         View v = inflater.inflate(R.layout.fragment_circulares, container, false);
         lstCirculares = v.findViewById(R.id.lstCirculares);
         imgMoverFavSeleccionados = v.findViewById(R.id.imgMoverFavSeleccionados);
@@ -132,9 +136,11 @@ public CircularesAdapter adapter = null;
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                circulares.clear();
-                getCirculares(String.valueOf(idUsuario));// your code
-                pullToRefresh.setRefreshing(false);
+                if(hayConexion()) {
+                    circulares.clear();
+                    getCirculares(String.valueOf(idUsuario));// your code
+                    pullToRefresh.setRefreshing(false);
+                }
             }
         });
 
@@ -356,6 +362,7 @@ public CircularesAdapter adapter = null;
 
 
 
+
     public void leeCirculares(int idUsuario){
         circulares.clear();
         seleccionados.clear();
@@ -363,8 +370,9 @@ public CircularesAdapter adapter = null;
         ArrayList<DBCircular> dbCirculares = new ArrayList<>();
         List<DBCircular> list = new Select().from(DBCircular.class).where("idUsuario=?",idUsuario).execute();
         dbCirculares.addAll(list);
+
         //llenar el adapter
-        for(int i=0; i<dbCirculares.size(); i++){
+        for(int i=0; i<list.size(); i++){
             String idCircular = dbCirculares.get(i).idCircular;
             String nombre = dbCirculares.get(i).nombre;
             String fecha1 =dbCirculares.get(i).created_at;
@@ -378,7 +386,7 @@ public CircularesAdapter adapter = null;
             String para = String.valueOf(dbCirculares.get(i).para);
             String fechaIcs = String.valueOf(dbCirculares.get(i).fecha_ics);
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
-            Log.d("FECHA_ICS",dbCirculares.get(i).fecha_ics+" "+dbCirculares.get(i).para);
+
             circulares.add(new Circular(idCircular,
                     "Circular No. "+idCircular,
                     nombre,"",
@@ -394,9 +402,11 @@ public CircularesAdapter adapter = null;
 
 
         } //fin del for
+        Log.d("TAMANIO",""+circulares.size());
         //Toast.makeText(getActivity(),"Se muestran las circulares almacenadas en el dispositivo",Toast.LENGTH_LONG).show();
         adapter = new CircularesAdapter(getActivity(),circulares);
         lstCirculares.setAdapter(adapter);
+        //if(hayConexion())
         ((BaseAdapter) lstCirculares.getAdapter()).notifyDataSetChanged();
 
 
@@ -447,6 +457,13 @@ public CircularesAdapter adapter = null;
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
+                                String enviaTodos  = jsonObject.getString("envia_todos");
+                                String grados  = "";
+                                try{
+                                    grados = jsonObject.getString("grados");
+                                }catch (Exception ex){
+
+                                }
                                 String adm = "";
                                 try {
                                     adm = jsonObject.getString("adm");
@@ -455,20 +472,44 @@ public CircularesAdapter adapter = null;
                                     }
                                 }catch (Exception ex){}
                                 String rts ="";
-
+                                String para="";
                                 try{
                                     rts =  jsonObject.getString("rts");
                                     if(rts.equalsIgnoreCase("rutas")){rts="";}
                                 }catch (Exception ex){}
+                                String espec = jsonObject.getString("espec");
 
 
-                                String para = jsonObject.getString("espec")+" "+adm+" "+rts;
                                 String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
                                 }catch (Exception ex){
                                     nivel="";
                                 }
+
+                                if(nivel.length()>0) {nivel="nivel: "+nivel+"/";}
+                                if(grados.length()>0) {grados=" para: "+grados+"/";}
+                                if(espec.length()>0) {espec=espec+"/";}
+                                if(adm.length()>0) {adm=adm+"/";}
+                                if(rts.length()>0) {espec=rts+"/";}
+
+                                para = nivel+grados+espec+adm+rts;
+                                try {
+                                    para = para.substring(0, para.length() - 1);
+                                }catch (Exception ex){
+                                    Log.d("PARA",ex.getMessage());
+                                }
+
+                                if(enviaTodos.equalsIgnoreCase("0") && adm.equalsIgnoreCase("")
+                                && rts.equalsIgnoreCase("") && espec.equalsIgnoreCase("")
+                                && grados.equalsIgnoreCase("") & nivel.equalsIgnoreCase("")){
+                                    para = "Personal";
+                                }
+
+                                if(enviaTodos.equalsIgnoreCase("1")){para="Todos";}
+
+
+
                                 //No mostrar las eliminadas
                                 if(Integer.parseInt(eliminada)==0){
                                     circulares.add(new Circular(idCircular,
@@ -552,7 +593,7 @@ public CircularesAdapter adapter = null;
                             dbCircular.created_at = circulares2.get(i).getFecha1();
                             dbCircular.updated_at = circulares2.get(i).getFecha2();
                             dbCircular.para = circulares2.get(i).getPara();
-                            dbCircular.save();
+                            Log.d("GUARDANDO",""+dbCircular.save());
 
                         }
                         try{

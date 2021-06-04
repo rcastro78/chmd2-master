@@ -266,7 +266,7 @@ public class NotificacionesFragment extends Fragment {
                         }
                     });
 
-            new Update(DBCircular.class)
+            new Update(DBNotificacion.class)
                     .set("leida=0 , favorita=0 , eliminada=1")
                     .where("idCircular=?",idCircular)
                     .execute();
@@ -297,7 +297,8 @@ public class NotificacionesFragment extends Fragment {
             String favorito =  String.valueOf(dbCirculares.get(i).favorita);
             String leido = String.valueOf(dbCirculares.get(i).leida);
             String contenido = String.valueOf(dbCirculares.get(i).contenido);
-            String fechaIcs = "";
+            String fechaIcs = dbCirculares.get(i).fecha_ics;
+            String para = dbCirculares.get(i).para;
             //Toast.makeText(getActivity(),contenido,Toast.LENGTH_LONG).show();
 
             circulares.add(new Circular(idCircular,
@@ -309,7 +310,8 @@ public class NotificacionesFragment extends Fragment {
                     Integer.parseInt(leido),
                     Integer.parseInt(favorito),
                     contenido,
-                    fechaIcs));
+                    fechaIcs,
+                    para));
 
 
 
@@ -353,15 +355,20 @@ public class NotificacionesFragment extends Fragment {
                                 String leido = jsonObject.getString("leido");
                                 String contenido = jsonObject.getString("contenido");
                                 String eliminada = jsonObject.getString("eliminado");
-
+                                String enviaTodos = jsonObject.getString("envia_todos");
                                 String temaIcs = jsonObject.getString("tema_ics");
                                 String fechaIcs = jsonObject.getString("fecha_ics");
                                 String horaInicialIcs = jsonObject.getString("hora_inicial_ics");
                                 String horaFinalIcs = jsonObject.getString("hora_final_ics");
                                 String ubicacionIcs = jsonObject.getString("ubicacion_ics");
                                 String adjunto = jsonObject.getString("adjunto");
-                                String nivel = "";
 
+                                String grados  = "";
+                                try{
+                                    grados = jsonObject.getString("grados");
+                                }catch (Exception ex){
+
+                                }
                                 String adm = "";
                                 try {
                                     adm = jsonObject.getString("adm");
@@ -370,22 +377,49 @@ public class NotificacionesFragment extends Fragment {
                                     }
                                 }catch (Exception ex){}
                                 String rts ="";
-
+                                String para="";
                                 try{
                                     rts =  jsonObject.getString("rts");
                                     if(rts.equalsIgnoreCase("rutas")){rts="";}
                                 }catch (Exception ex){}
-                                String para = jsonObject.getString("espec")+" "+adm+" "+rts;
+                                String espec = jsonObject.getString("espec");
+
+
+                                String nivel = "";
                                 try{
                                     nivel=jsonObject.getString("nivel");
                                 }catch (Exception ex){
                                     nivel="";
                                 }
+
+                                if(nivel.length()>0) {nivel="nivel: "+nivel+"/";}
+                                if(grados.length()>0) {grados=" para: "+grados+"/";}
+                                if(espec.length()>0) {espec=espec+"/";}
+                                if(adm.length()>0) {adm=adm+"/";}
+                                if(rts.length()>0) {espec=rts+"/";}
+
+                                para = nivel+grados+espec+adm+rts;
+
+                                try {
+                                    para = para.substring(0, para.length() - 1);
+                                }catch (Exception ex){
+                                    Log.d("PARA",ex.getMessage());
+                                }
+
+                                if(enviaTodos.equalsIgnoreCase("0") && adm.equalsIgnoreCase("")
+                                        && rts.equalsIgnoreCase("") && espec.equalsIgnoreCase("")
+                                        && grados.equalsIgnoreCase("") & nivel.equalsIgnoreCase("")){
+                                    para = "Personal";
+                                }
+
+                                if(enviaTodos.equalsIgnoreCase("1")){para="Todos";}
+
+
                                 //No mostrar las eliminadas
-                                if(Integer.parseInt(eliminada)==0){
+                                if(Integer.parseInt(eliminada)==0) {
                                     circulares.add(new Circular(idCircular,
-                                            "Circular No. "+idCircular,
-                                            nombre,"",
+                                            "Circular No. " + idCircular,
+                                            nombre, "",
                                             strFecha1,
                                             strFecha2,
                                             estado,
@@ -400,20 +434,20 @@ public class NotificacionesFragment extends Fragment {
                                             Integer.parseInt(adjunto),
                                             nivel,
                                             para));
-                                }
 
-                                circulares2.add(new Circular(idCircular,
-                                        "Circular No. "+idCircular,
-                                        nombre,"",
-                                        strFecha1,
-                                        strFecha2,
-                                        estado,
-                                        Integer.parseInt(leido),
-                                        Integer.parseInt(favorito),
-                                        contenido,
-                                        Integer.parseInt(eliminada),
-                                        para,
-                                        fechaIcs));
+                                }
+                                    circulares2.add(new Circular(idCircular,
+                                            "Circular No. " + idCircular,
+                                            nombre, "",
+                                            strFecha1,
+                                            strFecha2,
+                                            estado,
+                                            Integer.parseInt(leido),
+                                            Integer.parseInt(favorito),
+                                            contenido,
+                                            Integer.parseInt(eliminada),
+                                            para,
+                                            fechaIcs));
 
 
                                 //String idCircular, String encabezado, String nombre,
@@ -453,11 +487,13 @@ public class NotificacionesFragment extends Fragment {
                             //dbCircular.compartida = circulares.get(i).getCompartida();
                             dbCircular.eliminada = circulares2.get(i).getEliminada();
                             dbCircular.nombre = circulares2.get(i).getNombre();
-                            //dbCircular.textoCircular = circulares.get(i).getTextoCircular();
+                            dbCircular.fecha_ics = circulares2.get(i).getFechaIcs();
                             dbCircular.contenido = circulares2.get(i).getContenido();
                             dbCircular.created_at = circulares2.get(i).getFecha1();
                             dbCircular.updated_at = circulares2.get(i).getFecha2();
-                            //dbCircular.para = circulares2.get(i).getPara();
+                            dbCircular.para = circulares2.get(i).getPara();
+
+
                             Log.w("GUARDANDO",""+dbCircular.save());
                         }
                         try{

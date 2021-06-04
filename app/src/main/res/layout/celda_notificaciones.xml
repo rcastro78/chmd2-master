@@ -21,31 +21,51 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:layout_weight="90"
+            android:layout_weight="85"
             android:orientation="vertical"
             android:weightSum="100">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="50">
+                android:layout_weight="50"
+                android:weightSum="2">
 
 
-                <ImageView
-                    android:id="@+id/imgCircular"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="24dp"
-                    android:background="@drawable/circle_white" />
-            </RelativeLayout>
+                <CheckBox
+                    android:id="@+id/chkSeleccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:visibility="visible"
+                    android:layout_weight="1"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imgCircular"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_centerInParent="true"
+
+                        android:background="@drawable/circle_white" />
+                </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="10"
+            android:layout_weight="15"
             android:orientation="vertical"
             android:weightSum="10">
 
@@ -114,18 +134,36 @@
                                 android:id="@+id/lblDia"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
+                                android:layout_centerInParent="true"
                                 android:gravity="center_vertical|center_horizontal"
                                 android:text="TextView"
                                 android:textColor="@color/colorPrimaryDark"
-                                android:textSize="12dp" />
+                                android:textSize="10sp" />
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rlCalendario"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="80"/>
+                            android:layout_weight="80">
+
+                            <ImageView
+                                android:id="@+id/imgClip"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                app:srcCompat="@drawable/clip" />
+
+                            <ImageView
+                                android:id="@+id/imgCalendario"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_below="@+id/imgClip"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="2dp"
+                                app:srcCompat="@null" />
+
+                        </RelativeLayout>
 
                     </LinearLayout>
 
@@ -136,11 +174,7 @@
 
         </LinearLayout>
 
-
-
-
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/llPara"
         android:layout_width="match_parent"
@@ -160,4 +194,5 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="12dp" />
     </LinearLayout>
+
 </LinearLayout>

@@ -31,4 +31,10 @@ public class DBNotificacion extends Model {
     @Column(name="updated_at")
     public String updated_at;
 
+    @Column(name="para")
+    public String para;
+
+    @Column(name="fecha_ics")
+    public String fecha_ics;
+
 }

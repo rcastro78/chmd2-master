@@ -71,7 +71,7 @@ public class NotificacionAdapter extends BaseAdapter {
         CircularesAdapter.ViewHolder holder = null;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.celda_circulares, null);
+            convertView = inflater.inflate(R.layout.celda_notificaciones, null);
             holder = new CircularesAdapter.ViewHolder();
 
             holder.lblEncab = convertView.findViewById(R.id.lblEncab);
