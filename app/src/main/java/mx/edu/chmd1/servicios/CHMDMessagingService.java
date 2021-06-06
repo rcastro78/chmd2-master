@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -138,11 +139,11 @@ public class CHMDMessagingService extends FirebaseMessagingService {
                 String messageBody = remoteMessage.getData().get("body");
                 String title = remoteMessage.getData().get("title");
                 notificationIntent = new Intent(getApplicationContext(), ValidarPadreActivity.class);
-                notificationIntent.putExtra("idCircularN" , remoteMessage.getData().get("idCircular")) ;
+
                 notificationIntent.putExtra("viaNotif" , 1);
-                notificationIntent.putExtra("idCircular" , remoteMessage.getData().get("idCircular")) ;
+                notificationIntent.putExtra("idCircular" , idCircular) ;
                 notificationIntent.putExtra("viaNotificacion" , 1);
-                //showNotificationMessage(title, messageBody, time, resultIntent, null);
+                //Log.d("idCircularN","Via app cerrada");
                 sendNotification(remoteMessage,idCircular);
             } catch (Exception e){
                 Log.e("idCircularNotif", "Exception: " + e.getMessage());
@@ -211,7 +212,7 @@ public class CHMDMessagingService extends FirebaseMessagingService {
         if(r.getData()!=null){
             intent = new Intent(this, ValidarPadreActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("idCircularNotif",r.getData().get("idCircular"));
+            intent.putExtra("idCircular",r.getData().get("idCircular"));
             intent.putExtra("viaNotificacion",r.getData().get("viaNotificacion"));
 
             Log.d("idCircularN",r.getData().get("idCircular"));

@@ -11,6 +11,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="idCircularN" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
@@ -36,37 +37,20 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4867e78a-064e-48e5-a107-b7b2dfb98928" name="Default Changelist" comment="mejora en refresh cuando se hace un cambio de estado en una o más circulares.">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/modelos/Circulares.java" afterDir="false" />
+    <list default="true" id="4867e78a-064e-48e5-a107-b7b2dfb98928" name="Default Changelist" comment="ajuste de texto en para y diseño de la circular.">
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.5/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/release/app-release.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/app-release.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/CredencialActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/CredencialActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/NotificacionesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/NotificacionesActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/adapter/CircularesAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/adapter/CircularesAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/adapter/NotificacionAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/adapter/NotificacionAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/CompartidosFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/CompartidosFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/EliminadasFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/EliminadasFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/FavoritosFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/FavoritosFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/LeidosFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/LeidosFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/NoLeidosFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/NoLeidosFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/NotificacionesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/NotificacionesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/TodasCircularesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/fragment/TodasCircularesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/modelos/Circular.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/modelos/Circular.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/modelosDB/DBCircular.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/modelosDB/DBCircular.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/networking/ICircularesCHMD.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/networking/ICircularesCHMD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/celda_notificaciones.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/celda_notificaciones.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_notificaciones.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_notificaciones.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/CircularDetalleActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/CircularDetalleActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/servicios/CHMDMessagingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/servicios/CHMDMessagingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/validaciones/ValidarPadreActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/mx/edu/chmd1/validaciones/ValidarPadreActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -420,7 +404,21 @@
       <option name="project" value="LOCAL" />
       <updated>1622357376808</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="mejora en notificaciones, ajuste en texto de a quien va dirigida la circular/notificacion.">
+      <created>1622523233631</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1622523233631</updated>
+    </task>
+    <task id="LOCAL-00009" summary="ajuste de texto en para y diseño de la circular.">
+      <created>1622776287192</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1622776287192</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -441,7 +439,9 @@
     <MESSAGE value="ajustes" />
     <MESSAGE value="mejora en métodos con Retrofit" />
     <MESSAGE value="mejora en refresh cuando se hace un cambio de estado en una o más circulares." />
-    <option name="LAST_COMMIT_MESSAGE" value="mejora en refresh cuando se hace un cambio de estado en una o más circulares." />
+    <MESSAGE value="mejora en notificaciones, ajuste en texto de a quien va dirigida la circular/notificacion." />
+    <MESSAGE value="ajuste de texto en para y diseño de la circular." />
+    <option name="LAST_COMMIT_MESSAGE" value="ajuste de texto en para y diseño de la circular." />
   </component>
   <component name="WindowStateProjectService">
     <state x="485" y="248" key="#PSD" timestamp="1622327976512">
@@ -453,42 +453,42 @@
     </state>
     <state x="796" y="214" key="#com.intellij.ide.util.MemberChooser/0.23.1920.975@0.23.1920.975" timestamp="1622507550177" />
     <state x="796" y="215" key="#com.intellij.ide.util.MemberChooser/0.23.1920.980@0.23.1920.980" timestamp="1619138229796" />
-    <state width="1878" height="262" key="GridCell.Tab.0.bottom" timestamp="1622521658172">
+    <state width="1878" height="262" key="GridCell.Tab.0.bottom" timestamp="1622996725593">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="262" key="GridCell.Tab.0.bottom/0.23.1920.973@0.23.1920.973" timestamp="1622521658172" />
-    <state width="1878" height="276" key="GridCell.Tab.0.bottom/0.23.1920.975@0.23.1920.975" timestamp="1622506909129" />
-    <state width="1878" height="262" key="GridCell.Tab.0.center" timestamp="1622521658171">
+    <state width="1878" height="262" key="GridCell.Tab.0.bottom/0.23.1920.973@0.23.1920.973" timestamp="1622996725593" />
+    <state width="1878" height="262" key="GridCell.Tab.0.bottom/0.23.1920.975@0.23.1920.975" timestamp="1622776336976" />
+    <state width="1878" height="262" key="GridCell.Tab.0.center" timestamp="1622996725593">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="262" key="GridCell.Tab.0.center/0.23.1920.973@0.23.1920.973" timestamp="1622521658171" />
-    <state width="1878" height="276" key="GridCell.Tab.0.center/0.23.1920.975@0.23.1920.975" timestamp="1622506909128" />
-    <state width="1878" height="262" key="GridCell.Tab.0.left" timestamp="1622521658171">
+    <state width="1878" height="262" key="GridCell.Tab.0.center/0.23.1920.973@0.23.1920.973" timestamp="1622996725593" />
+    <state width="1878" height="262" key="GridCell.Tab.0.center/0.23.1920.975@0.23.1920.975" timestamp="1622776336976" />
+    <state width="1878" height="262" key="GridCell.Tab.0.left" timestamp="1622996725592">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="262" key="GridCell.Tab.0.left/0.23.1920.973@0.23.1920.973" timestamp="1622521658171" />
-    <state width="1878" height="276" key="GridCell.Tab.0.left/0.23.1920.975@0.23.1920.975" timestamp="1622506909128" />
-    <state width="1878" height="262" key="GridCell.Tab.0.right" timestamp="1622521658171">
+    <state width="1878" height="262" key="GridCell.Tab.0.left/0.23.1920.973@0.23.1920.973" timestamp="1622996725592" />
+    <state width="1878" height="262" key="GridCell.Tab.0.left/0.23.1920.975@0.23.1920.975" timestamp="1622776336975" />
+    <state width="1878" height="262" key="GridCell.Tab.0.right" timestamp="1622996725593">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="262" key="GridCell.Tab.0.right/0.23.1920.973@0.23.1920.973" timestamp="1622521658171" />
-    <state width="1878" height="276" key="GridCell.Tab.0.right/0.23.1920.975@0.23.1920.975" timestamp="1622506909129" />
-    <state width="1878" height="262" key="GridCell.Tab.1.bottom" timestamp="1621743216400">
+    <state width="1878" height="262" key="GridCell.Tab.0.right/0.23.1920.973@0.23.1920.973" timestamp="1622996725593" />
+    <state width="1878" height="262" key="GridCell.Tab.0.right/0.23.1920.975@0.23.1920.975" timestamp="1622776336976" />
+    <state width="1878" height="262" key="GridCell.Tab.1.bottom" timestamp="1622770481953">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="262" key="GridCell.Tab.1.bottom/0.23.1920.973@0.23.1920.973" timestamp="1621743216400" />
-    <state width="1878" height="262" key="GridCell.Tab.1.center" timestamp="1621743216400">
+    <state width="1878" height="262" key="GridCell.Tab.1.bottom/0.23.1920.973@0.23.1920.973" timestamp="1622770481953" />
+    <state width="1878" height="262" key="GridCell.Tab.1.center" timestamp="1622770481953">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="262" key="GridCell.Tab.1.center/0.23.1920.973@0.23.1920.973" timestamp="1621743216400" />
-    <state width="1878" height="262" key="GridCell.Tab.1.left" timestamp="1621743216399">
+    <state width="1878" height="262" key="GridCell.Tab.1.center/0.23.1920.973@0.23.1920.973" timestamp="1622770481953" />
+    <state width="1878" height="262" key="GridCell.Tab.1.left" timestamp="1622770481953">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="262" key="GridCell.Tab.1.left/0.23.1920.973@0.23.1920.973" timestamp="1621743216399" />
-    <state width="1878" height="262" key="GridCell.Tab.1.right" timestamp="1621743216400">
+    <state width="1878" height="262" key="GridCell.Tab.1.left/0.23.1920.973@0.23.1920.973" timestamp="1622770481953" />
+    <state width="1878" height="262" key="GridCell.Tab.1.right" timestamp="1622770481953">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state width="1878" height="262" key="GridCell.Tab.1.right/0.23.1920.973@0.23.1920.973" timestamp="1621743216400" />
+    <state width="1878" height="262" key="GridCell.Tab.1.right/0.23.1920.973@0.23.1920.973" timestamp="1622770481953" />
     <state x="461" y="148" key="SettingsEditor" timestamp="1622327870496">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
@@ -497,17 +497,16 @@
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state width="498" height="467" key="SwitcherDM/0.23.1920.973@0.23.1920.973" timestamp="1622520514821" />
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1622357380947">
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2" timestamp="1622776293029">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1622357380947" />
+    <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1622776293029" />
     <state x="560" y="249" key="Vcs.Push.Dialog.v2/0.23.1920.975@0.23.1920.975" timestamp="1622348361023" />
-    <state x="733" y="462" width="712" height="516" key="find.popup" timestamp="1622517723631">
+    <state x="733" y="462" width="712" height="516" key="find.popup" timestamp="1622767087647">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
-    <state x="733" y="462" width="712" height="516" key="find.popup/0.23.1920.973@0.23.1920.973" timestamp="1622517723631" />
+    <state x="733" y="462" width="712" height="516" key="find.popup/0.23.1920.973@0.23.1920.973" timestamp="1622767087647" />
     <state x="626" y="420" width="712" height="519" key="find.popup/0.23.1920.978@0.23.1920.978" timestamp="1619139278243" />
-    <state x="569" y="371" width="712" height="523" key="find.popup/0.23.1920.984@0.23.1920.984" timestamp="1614227747912" />
     <state x="630" y="305" key="git4idea.merge.GitPullDialog" timestamp="1622520954352">
       <screen x="0" y="23" width="1920" height="973" />
     </state>

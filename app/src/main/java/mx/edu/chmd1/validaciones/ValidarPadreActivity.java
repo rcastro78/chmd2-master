@@ -58,7 +58,7 @@ public class ValidarPadreActivity extends AppCompatActivity {
             for (String key : getIntent().getExtras().keySet()) {
                 Object value = getIntent().getExtras().get(key);
                 Log.d("idCircularN", "llave: " + key + " valor: " + value);
-                if(key.equalsIgnoreCase("idCircularNotif")){
+                if(key.equalsIgnoreCase("idCircular")){
                     idCircularNotif = value.toString();
                 }
                 if(key.equalsIgnoreCase("viaNotificacion")){

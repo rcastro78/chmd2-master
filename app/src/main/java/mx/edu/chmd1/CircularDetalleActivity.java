@@ -135,6 +135,7 @@ public class CircularDetalleActivity extends AppCompatActivity {
         //Volbt a poner vianotif a 0
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("viaNotif",0);
+        editor.putInt("viaNotificacion",0);
         editor.commit();
 
 
