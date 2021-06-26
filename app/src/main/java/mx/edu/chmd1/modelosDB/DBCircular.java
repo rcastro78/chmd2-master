@@ -25,7 +25,8 @@ public class DBCircular extends Model {
     public int eliminada;
     @Column(name="idUsuario")
     public int idUsuario;
-
+    @Column(name="recordatorio")
+    public int recordatorio;
     @Column(name="created_at")
     public String created_at;
 

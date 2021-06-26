@@ -11,8 +11,8 @@ android {
         applicationId "mx.edu.chmd1"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
-        versionName "1.1.1"
+        versionCode 9
+        versionName "1.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

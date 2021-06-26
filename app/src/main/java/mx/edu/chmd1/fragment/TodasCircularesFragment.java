@@ -593,6 +593,10 @@ public CircularesAdapter adapter = null;
                             dbCircular.created_at = circulares2.get(i).getFecha1();
                             dbCircular.updated_at = circulares2.get(i).getFecha2();
                             dbCircular.para = circulares2.get(i).getPara();
+                            if(!circulares2.get(i).getHoraInicialIcs().equalsIgnoreCase("00:00:00"))
+                                dbCircular.recordatorio = 1;
+                            else
+                                dbCircular.recordatorio = 0;
                             Log.d("GUARDANDO",""+dbCircular.save());
 
                         }

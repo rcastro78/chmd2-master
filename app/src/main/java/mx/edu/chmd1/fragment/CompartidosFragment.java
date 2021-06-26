@@ -66,6 +66,7 @@ public class CompartidosFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(this.getString(R.string.SHARED_PREF), 0);
 
         View v = inflater.inflate(R.layout.fragment_circulares, container, false);
+
         lstCirculares = v.findViewById(R.id.lstCirculares);
 
         lstCirculares.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
