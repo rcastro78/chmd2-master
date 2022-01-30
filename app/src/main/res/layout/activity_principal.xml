@@ -3,23 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#29000000">
+    android:background="#29000000"
+    >
 
     <include layout="@layout/fondo_video" />
 
     <!--Like Spotify image-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
 
-
-
-
-
-    </LinearLayout>
 
 
     <ImageView
@@ -31,11 +22,36 @@
         android:layout_marginTop="24dp"
         app:srcCompat="@drawable/encab2" />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="100"
+        android:orientation="vertical"
+        android:padding="4dp"
+        android:layout_below="@id/imageView">
+
+
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/lstPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/imageView"
-        android:id="@+id/lstPrincipal"></ListView>
+        android:layout_weight="5"></ListView>
+
+    <Button
+        android:id="@+id/btnPolicy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Política de Privacidad"
+        android:textColor="#fff"
+        android:layout_weight="95"
+        android:textAllCaps="false"
+        android:background="@null"
+        ></Button>
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>

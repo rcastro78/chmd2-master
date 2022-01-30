@@ -136,8 +136,7 @@ public class PadresActivity extends AppCompatActivity {
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 

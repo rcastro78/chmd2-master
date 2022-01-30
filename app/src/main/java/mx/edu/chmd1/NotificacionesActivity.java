@@ -56,7 +56,7 @@ public class NotificacionesActivity extends AppCompatActivity {
                 Notificacion n = (Notificacion)lstNotificaciones.getItemAtPosition(i);
                 String idCircular = n.getIdCircular();
                 //Cambiar el estado de la notificación a 0
-                new Update(DBNotificacion.class).set("estado=1").where("idCircular=?",idCircular).execute();
+                new Update(DBNotificacion.class).set("estado=0").where("idCircular=?",idCircular).execute();
                 //Reducir el badge
                 ShortcutBadger.applyCount(getApplicationContext(), -1);
                 //Cargar los detalles de la circular

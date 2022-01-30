@@ -122,21 +122,11 @@ SharedPreferences sharedPreferences;
 
                 mGoogleSignInClient.signOut()
 
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(),"No se pudo desconectar: "+e.getMessage(),Toast.LENGTH_LONG).show();
-                            }
-                        })
-                        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(getApplicationContext(),"Cerrando la sesión",Toast.LENGTH_LONG).show();
-                               Intent intent = new Intent(MainActivity.this,InicioActivity.class);
-                               startActivity(intent);
-                            }
-
-
+                        .addOnFailureListener(e -> Toast.makeText(getApplicationContext(),"No se pudo desconectar: "+e.getMessage(),Toast.LENGTH_LONG).show())
+                        .addOnCompleteListener(this, task -> {
+                            Toast.makeText(getApplicationContext(),"Cerrando la sesión",Toast.LENGTH_LONG).show();
+                           Intent intent = new Intent(MainActivity.this,InicioActivity.class);
+                           startActivity(intent);
                         });
 
 

@@ -1,8 +1,11 @@
 package mx.edu.chmd1;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,12 +13,14 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -55,6 +60,7 @@ import mx.edu.chmd1.modelos.Menu;
 public class PrincipalActivity extends AppCompatActivity {
     MenuAdapter menuAdapter = null;
     ListView lstPrincipal;
+    Button btnPolicy;
     ArrayList<Menu> items = new ArrayList<>();
     VideoView videoview;
 
@@ -85,15 +91,30 @@ public class PrincipalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+        Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/GothamRoundedBold_21016.ttf");
         BASE_URL = this.getString(R.string.BASE_URL);
         RUTA = this.getString(R.string.PATH);
-
-        videoview = findViewById(R.id.videoView);
-        videoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-                videoview.start();
+        try {
+            if (ActivityCompat.checkSelfPermission( this,android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission( this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission( this, Manifest.permission.READ_CALENDAR ) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission( this, Manifest.permission.WRITE_CALENDAR ) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission( this, Manifest.permission.MANAGE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission( this, Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission( this, Manifest.permission.FOREGROUND_SERVICE ) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA,
+                                Manifest.permission.MANAGE_EXTERNAL_STORAGE,Manifest.permission.READ_CALENDAR,
+                                Manifest.permission.WRITE_CALENDAR,Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
             }
-        });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("GEO",e.getMessage());
+        }
+        videoview = findViewById(R.id.videoView);
+        videoview.setOnCompletionListener(mp -> videoview.start());
         Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.video_app);
         videoview.setVideoURI(uri);
         videoview.start();
@@ -114,70 +135,70 @@ public class PrincipalActivity extends AppCompatActivity {
         getVigencia(idUsuarioCredencial);
         getCifrado(idUsuarioCredencial);
         ShortcutBadger.applyCount(getApplicationContext(), 0);
-        FirebaseInstanceId.getInstance().getInstanceId() .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-            @Override
-            public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                if (!task.isSuccessful()) {
-                    Log.w(TAG, "getInstanceId failed", task.getException());
-                    return;
-                }
-                String token = task.getResult().getToken();
-                Log.w(TAG, "token: "+token);
-                new RegistrarDispositivoAsyncTask(correo,token,"Android OS",idUsuarioCredencial).execute();
+        FirebaseInstanceId.getInstance().getInstanceId() .addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w(TAG, "getInstanceId failed", task.getException());
+                return;
             }
+            String token = task.getResult().getToken();
+            Log.w(TAG, "token: "+token);
+            new RegistrarDispositivoAsyncTask(correo,token,"Android OS",idUsuarioCredencial).execute();
         });
+
 
 
 
         lstPrincipal = findViewById(R.id.lstPrincipal);
         llenarMenu();
-        lstPrincipal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Menu m = (Menu)lstPrincipal.getItemAtPosition(position);
-                if(m.getIdMenu()==1){
-                    //Circulares
-                    Intent intent = new Intent(PrincipalActivity.this, CircularActivity.class);
-                    startActivity(intent);
-                }
-                //Web
-                if(m.getIdMenu()==2){
-                    Intent intent = new Intent(PrincipalActivity.this,WebCHMDActivity.class);
-                    startActivity(intent);
-                }
+        lstPrincipal.setOnItemClickListener((parent, view, position, id) -> {
+            Menu m = (Menu)lstPrincipal.getItemAtPosition(position);
+            if(m.getIdMenu()==1){
+                //Circulares
+                Intent intent = new Intent(PrincipalActivity.this, CircularActivity.class);
+                startActivity(intent);
+            }
+            //Web
+            if(m.getIdMenu()==2){
+                Intent intent = new Intent(PrincipalActivity.this,WebCHMDActivity.class);
+                startActivity(intent);
+            }
 
-                if(m.getIdMenu()==3){
-                    Intent intent = new Intent(PrincipalActivity.this,CredencialActivity.class);
-                    startActivity(intent);
-                }
-/*
-                if(m.getIdMenu()==4){
-                    Intent intent = new Intent(PrincipalActivity.this,NotificacionesActivity.class);
-                    startActivity(intent);
-                }
-*/
-                if(m.getIdMenu()==5){
-                    //Cerrar Sesión
-                    try{
-                        mGoogleSignInClient.signOut();
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("email","");
-                        editor.putString("nombre","");
-                        editor.putString("userPic","");
-                        editor.putString("idToken","");
-                        editor.putInt("cuentaValida",0);
+            if(m.getIdMenu()==3){
+                Intent intent = new Intent(PrincipalActivity.this,CredencialActivity.class);
+                startActivity(intent);
+            }
+
+            if(m.getIdMenu()==5){
+                //Cerrar Sesión
+                try{
+                    mGoogleSignInClient.signOut();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email","");
+                    editor.putString("nombre","");
+                    editor.putString("userPic","");
+                    editor.putString("idToken","");
+                    editor.putInt("cuentaValida",0);
 
 
-                        editor.commit();
-                        Intent intent = new Intent(PrincipalActivity.this,InicioActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }catch (Exception ex){
+                    editor.commit();
+                    Intent intent = new Intent(PrincipalActivity.this,InicioActivity.class);
+                    startActivity(intent);
+                    finish();
+                }catch (Exception ex){
 
-                    }
                 }
             }
         });
+
+        btnPolicy = findViewById(R.id.btnPolicy);
+        btnPolicy.setTypeface(tf);
+        btnPolicy.setOnClickListener(v -> {
+            Intent intent = new Intent(PrincipalActivity.this,PoliticaActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+
     }
 
     private void llenarMenu(){

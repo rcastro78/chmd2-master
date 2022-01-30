@@ -11,6 +11,7 @@
     <string name="tab_text_3">Tab 3</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="facebook_app_id">1492478637713722</string> <string name="fb_login_protocol_scheme">fb1492478637713722</string>
+    <string name="facebook_app_id">1492478637713722</string>
+    <string name="fb_login_protocol_scheme">fb1492478637713722</string>
     <string name="server_client_id">86111131270-blrpqrpqet1ie4hj5t381tm4cg3j4gmp.apps.googleusercontent.com</string>
 </resources>

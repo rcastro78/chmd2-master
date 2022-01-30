@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.security.cert.CertificateException;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -15,6 +16,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,7 +30,8 @@ public class RetrofitClient {
                 .create();
 
         if(retrofit == null){
-            OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+            OkHttpClient okHttpClient = getHttpClientBuilder();
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(url)
                     .client(okHttpClient)
@@ -38,6 +41,21 @@ public class RetrofitClient {
         }
         return retrofit;
     }
+
+
+
+    public static OkHttpClient getHttpClientBuilder(){
+        return new OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
+    }
+
+
+    /*
+    * val okHttpClientBuilder = OkHttpClient.Builder()
+        return okHttpClientBuilder.build()
 
 
     public static class UnsafeOkHttpClient {
@@ -70,7 +88,7 @@ public class RetrofitClient {
                 // Create an ssl socket factory with our all-trusting manager
                 final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-                OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                OkHttpClient.Builder builder = new OkHttpClient.Builder().readTimeout(15, TimeUnit.SECONDS);
                 builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);
                 builder.hostnameVerifier(new HostnameVerifier() {
                     @Override
@@ -80,6 +98,7 @@ public class RetrofitClient {
                 });
 
                 OkHttpClient okHttpClient = builder.build();
+
                 return okHttpClient;
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -87,5 +106,5 @@ public class RetrofitClient {
         }
     }
 
-
+ * */
 }

@@ -65,13 +65,10 @@ WebView webView;
         webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
-        //webView.setWebViewClient(new WebViewClient());
+
         String url = "https://www.chmd.edu.mx/pruebascd/icloud/";
         String ua = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0";
         Log.w("TOKEN",sharedPreferences.getString("idToken",""));
-        //webView.loadUrl(OAUTH_URL+"?redirect_uri="+REDIRECT_URI+"&response_type=code&client_id="+CLIENT_ID+"&scope="+OAUTH_SCOPE);
-        //webView.loadUrl(OAUTH_URL+"?redirect_uri="+REDIRECT_URI+"&response_type=code&client_id="+CLIENT_ID+"&scope="+OAUTH_SCOPE);
-
 
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setJavaScriptEnabled(true);

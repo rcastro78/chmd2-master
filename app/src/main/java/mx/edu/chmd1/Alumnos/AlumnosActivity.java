@@ -193,8 +193,7 @@ FloatingActionButton fabNuevo;
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -242,8 +241,7 @@ FloatingActionButton fabNuevo;
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
 
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -290,8 +288,7 @@ FloatingActionButton fabNuevo;
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
 
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -338,8 +335,7 @@ FloatingActionButton fabNuevo;
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
 
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 

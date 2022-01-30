@@ -18,6 +18,7 @@ public interface ICircularesCHMD {
     String METODO_FAV="favCircular.php";
     String METODO_NOLEER="noleerCircular.php";
     String METODO_CIRC="getCirculares_iOS.php";
+    String METODO_CREDENCIAL="actualizaFoto.php";
     @GET(VALIDAR_CUENTA)
     Call<String> validarCuenta(@Query("correo") String correo);
     @FormUrlEncoded
@@ -35,6 +36,19 @@ public interface ICircularesCHMD {
 
     @GET(METODO_CIRC)
     Call<List<Circulares>> getCirculares(@Query("usuario_id") String usuario_id);
+
+    @FormUrlEncoded
+    @POST(METODO_CREDENCIAL)
+    Call<Void> postActualizarFoto(@Field("image") String encodedImage,@Field("usuario_id") String usuario_id);
+
+
+
+    /*
+    * @FormUrlEncoded
+    @POST("saveCarImage.php")
+    Call<ImageResponse> postVehiclePicture(@Field("image") String encodedImage);
+    * */
+
 
 
 }

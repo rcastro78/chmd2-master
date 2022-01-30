@@ -296,22 +296,21 @@ public class EliminadasFragment extends Fragment {
                 Circular circular = (Circular)lstCirculares.getItemAtPosition(position);
                 String idCircular = circular.getIdCircular();
                 Intent intent = new Intent(getActivity(), CircularDetalleActivity.class);
-                intent.putExtra("tipo",ELIMINADAS);
                 intent.putExtra("idCircular",idCircular);
+                intent.putExtra("tipo",ELIMINADAS);
                 intent.putExtra("tituloCircular",circular.getNombre());
+                intent.putExtra("contenidoCircular",circular.getContenido());
                 intent.putExtra("fechaCircular",circular.getFecha2());
+                intent.putExtra("viaNotif",0);
                 intent.putExtra("temaIcs",circular.getTemaIcs());
                 intent.putExtra("fechaIcs",circular.getFechaIcs());
                 intent.putExtra("ubicaIcs",circular.getUbicacionIcs());
                 intent.putExtra("horaInicioIcs",circular.getHoraInicialIcs());
                 intent.putExtra("horaFinIcs",circular.getHoraFinalIcs());
-                intent.putExtra("viaNotif",0);
-                if(!circular.getNivel().equalsIgnoreCase("null")){
-                    intent.putExtra("nivel",circular.getNivel());
-                }else{
-                    intent.putExtra("nivel","");
-                }
+                intent.putExtra("adjunto",circular.getAdjunto());
+                intent.putExtra("nivel",circular.getPara());
                 getActivity().startActivity(intent);
+                getActivity().finish();
 
             }
         });
@@ -617,9 +616,10 @@ public class EliminadasFragment extends Fragment {
                             dbCircular.textoCircular = circulares.get(i).getTextoCircular();
                             dbCircular.save();
                         }*/
-
-                        adapter = new CircularesAdapter(getActivity(),circulares);
-                        lstCirculares.setAdapter(adapter);
+                        if(circulares.size()>0) {
+                            adapter = new CircularesAdapter(getActivity(), circulares);
+                            lstCirculares.setAdapter(adapter);
+                        }
 
                     }
                 }, new Response.ErrorListener()
@@ -629,8 +629,7 @@ public class EliminadasFragment extends Fragment {
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
 
-                Toast.makeText(getActivity().getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 

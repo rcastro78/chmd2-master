@@ -13,10 +13,11 @@ public class Circulares{
     public String updated_at;
     public String deleted_at;
     public String fecha_programada;
-    public Object status_envio;
+    public String status_envio;
     public String envia_todos;
-    public Object slug;
+    public String slug;
     public String cu_id;
+    public String id_usuario;
     public String usuario_id;
     public String leido;
     public String eliminado;
@@ -30,14 +31,15 @@ public class Circulares{
     public String hora_inicial_ics;
     public String hora_final_ics;
     public String ubicacion_ics;
-    public Object id_nivel;
-    public Object nivel;
+    public String id_nivel;
+    public String nivel;
     public String tipo;
-    public Object niveles;
-    public Object grados;
-    public Object grupos;
+    public String niveles;
+    public String grados;
+    public String grupos;
     public String espec;
     public String adm;
     public String rts;
+    public String formateada;
 }
 

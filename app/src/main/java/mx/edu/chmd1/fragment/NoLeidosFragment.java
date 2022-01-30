@@ -101,14 +101,7 @@ public class NoLeidosFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        if(hayConexion()){
-            getCirculares(idUsuario);
-        }
-        else{
             leeCirculares(idUsuario);
-            Toast.makeText(getActivity().getApplicationContext(),"No hay conexión a Internet",Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override
@@ -282,36 +275,29 @@ public class NoLeidosFragment extends Fragment {
 
 
         lstCirculares.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lstCirculares.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Se desplegará la circular
+        lstCirculares.setOnItemClickListener((parent, view, position, id) -> {
+            //Se desplegará la circular
 
-                Circular circular = (Circular)lstCirculares.getItemAtPosition(position);
-                String idCircular = circular.getIdCircular();
-                Intent intent = new Intent(getActivity(), CircularDetalleActivity.class);
-                intent.putExtra("idCircular",idCircular);
-                intent.putExtra("tipo",NOLEIDAS);
-                intent.putExtra("tituloCircular",circular.getNombre());
-                intent.putExtra("contenidoCircular",circular.getContenido());
-                intent.putExtra("fechaCircular",circular.getFecha2());
-                intent.putExtra("viaNotif",0);
-                intent.putExtra("temaIcs",circular.getTemaIcs());
-                intent.putExtra("fechaIcs",circular.getFechaIcs());
-                intent.putExtra("ubicaIcs",circular.getUbicacionIcs());
-                intent.putExtra("horaInicioIcs",circular.getHoraInicialIcs());
-                intent.putExtra("horaFinIcs",circular.getHoraFinalIcs());
-                intent.putExtra("adjunto",circular.getAdjunto());
-                if(!circular.getNivel().equalsIgnoreCase("null")){
-                    intent.putExtra("nivel",circular.getNivel());
-                }else{
-                    intent.putExtra("nivel","");
-                }
+            Circular circular = (Circular)lstCirculares.getItemAtPosition(position);
+            String idCircular = circular.getIdCircular();
+            Intent intent = new Intent(getActivity(), CircularDetalleActivity.class);
+            intent.putExtra("idCircular",idCircular);
+            intent.putExtra("tipo",NOLEIDAS);
+            intent.putExtra("tituloCircular",circular.getNombre());
+            intent.putExtra("contenidoCircular",circular.getContenido());
+            intent.putExtra("fechaCircular",circular.getFecha2());
+            intent.putExtra("viaNotif",0);
+            intent.putExtra("temaIcs",circular.getTemaIcs());
+            intent.putExtra("fechaIcs",circular.getFechaIcs());
+            intent.putExtra("ubicaIcs",circular.getUbicacionIcs());
+            intent.putExtra("horaInicioIcs",circular.getHoraInicialIcs());
+            intent.putExtra("horaFinIcs",circular.getHoraFinalIcs());
+            intent.putExtra("adjunto",circular.getAdjunto());
+            intent.putExtra("nivel",circular.getPara());
+            intent.putExtra("cfav",circular.getFavorita());
+            getActivity().startActivity(intent);
+            getActivity().finish();
 
-
-                getActivity().startActivity(intent);
-
-            }
         });
 
         return v;
@@ -371,7 +357,7 @@ public class NoLeidosFragment extends Fragment {
 
 
     public void getCirculares(int usuario_id){
-
+        new Delete().from(DBCircular.class).execute();
         final SimpleDateFormat formatoInicio = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final SimpleDateFormat formatoDestino = new SimpleDateFormat("HH:mm:ss");
         final SimpleDateFormat formatoDestino2 = new SimpleDateFormat("dd/MM/yyyy");
@@ -514,7 +500,7 @@ public class NoLeidosFragment extends Fragment {
                         //llenado de datos
                         //eliminar circulares y guardar las primeras 10 del registro
                         //Borra toda la tabla
-                        new Delete().from(DBCircular.class).execute();
+                        //new Delete().from(DBCircular.class).execute();
                         int maxRecuento = totalCirculares;
 
 
@@ -535,8 +521,7 @@ public class NoLeidosFragment extends Fragment {
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
 
-                Toast.makeText(getActivity().getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 

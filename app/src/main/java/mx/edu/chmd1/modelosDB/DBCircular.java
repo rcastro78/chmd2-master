@@ -45,4 +45,14 @@ public class DBCircular extends Model {
     @Column(name="rts")
     public String rts;
 
+    //nuevos
+    @Column(name="estado")
+    public String estado;
+    @Column(name="temaIcs")
+    public String temaIcs;
+    @Column(name="adjunto")
+    public String adjunto;
+    @Column(name="nivel")
+    public String nivel;
+
 }

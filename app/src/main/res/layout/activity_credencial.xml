@@ -7,11 +7,13 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context=".CredencialActivity">
-    <include layout="@layout/tool_bar"
+
+    <include
         android:id="@+id/toolbar"
-        android:layout_alignParentTop="true"
+        layout="@layout/tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,13 +27,13 @@
             android:layout_height="match_parent"
             android:layout_weight="35">
 
+
             <RelativeLayout
                 android:id="@+id/layoutTop"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="200dp"
 
                 android:background="@drawable/credencia_div_01"></RelativeLayout>
-
 
             <RelativeLayout
                 android:id="@+id/layoutBottom"
@@ -61,8 +63,8 @@
                             android:layout_height="match_parent"
                             android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
-                            android:text="Nombre del padre"
                             android:inputType="textCapWords"
+                            android:text="Nombre del padre"
                             android:textColor="@color/textoOscuro"
                             android:textSize="24sp" />
 
@@ -81,8 +83,8 @@
                             android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
                             android:text="Padre/Madre"
-                            android:textSize="20sp"
-                            android:textColor="@color/textoOscuro" />
+                            android:textColor="@color/textoOscuro"
+                            android:textSize="20sp" />
 
                     </RelativeLayout>
 
@@ -99,8 +101,8 @@
                             android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
                             android:text="Vigencia"
-                            android:textSize="18sp"
-                            android:textColor="@color/textoOscuro" />
+                            android:textColor="@color/textoOscuro"
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
@@ -109,15 +111,29 @@
 
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/imgFotoPadre"
-                android:layout_width="120dp"
-                android:layout_height="180dp"
+            <RelativeLayout
+                android:layout_width="240dp"
+                android:layout_height="160dp"
+
                 android:layout_above="@id/layoutBottom"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="-84dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/icon_non_profile" />
+                android:layout_marginBottom="-64dp"
+                android:adjustViewBounds="true">
+
+                <ImageView
+                    android:id="@+id/imgFotoPadre"
+                    android:layout_width="84dp"
+                    android:layout_height="108dp"
+                    android:layout_centerHorizontal="true"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/icon_non_profile"
+                    />
+
+
+
+
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -194,7 +210,7 @@
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="12dp"
                         android:layout_marginBottom="12dp"
-                      ></ImageView>
+                        ></ImageView>
 
                 </RelativeLayout>
             </LinearLayout>

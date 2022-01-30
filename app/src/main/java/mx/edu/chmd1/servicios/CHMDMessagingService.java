@@ -92,16 +92,6 @@ public class CHMDMessagingService extends FirebaseMessagingService {
     public void onMessageReceived (RemoteMessage remoteMessage) {
         super .onMessageReceived(remoteMessage);
         Intent notificationIntent = new Intent(getApplicationContext() , ValidarPadreActivity.class ) ;
-        /*Map<String, String> data = remoteMessage.getData();
-
-
-        String idCircular1= data.get("idCircular");
-        if(idCircular1.length()>0){
-            Intent intent = new Intent(this,CircularDetalleActivity.class);
-            intent.putExtra("idCircularN",idCircular1);
-            intent.putExtra("viaNotif",1);
-            startActivity(intent);
-        }*/
 
         notificationIntent.putExtra("idCircularN" , remoteMessage.getData().get("idCircular")) ;
         notificationIntent.putExtra("viaNotif" , 1);
@@ -131,6 +121,7 @@ public class CHMDMessagingService extends FirebaseMessagingService {
         //Se dispara con la app cerrada
         String idCircularNt = remoteMessage.getData().get("idCircular");
         //sendNotification(remoteMessage.getData().get("body"),remoteMessage.getData().get("title"),remoteMessage.getData().get("idCircular"));
+        Log.d("idCircularN","Via app abierta");
 
         if (remoteMessage.getData().size() > 0) {
             try{
@@ -143,7 +134,7 @@ public class CHMDMessagingService extends FirebaseMessagingService {
                 notificationIntent.putExtra("viaNotif" , 1);
                 notificationIntent.putExtra("idCircular" , idCircular) ;
                 notificationIntent.putExtra("viaNotificacion" , 1);
-                //Log.d("idCircularN","Via app cerrada");
+                Log.d("idCircularN","Via app cerrada");
                 sendNotification(remoteMessage,idCircular);
             } catch (Exception e){
                 Log.e("idCircularNotif", "Exception: " + e.getMessage());
@@ -153,39 +144,7 @@ public class CHMDMessagingService extends FirebaseMessagingService {
 
     }
 
-/*
-    @Override
-    public void onMessageReceived(RemoteMessage message) {
-        super.onMessageReceived(message);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            setupChannels();
-        }
-        int tipo=0;
-        //el strTipo viene en el data de la notificación
-        strTipo = message.getData().get("strTipo");
-        title = message.getData().get("title");
-        body = message.getData().get("body");
-        idCircular = message.getData().get("idCircular");
-        tituloCircular = message.getData().get("tituloCircular");
-        fechaCircularNotif = message.getData().get("fechaCircularNotif");
 
-
-        if(message.getNotification()!=null){
-            notificacionRecibida = true;
-            strTipo = message.getData().get("strTipo");
-            title = message.getData().get("title");
-            body = message.getData().get("body");
-            idCircular = message.getData().get("idCircular");
-            fechaCircularNotif = message.getData().get("fechaCircularNotif");
-            tituloCircular = message.getData().get("tituloCircular");
-
-        }
-        sendNotification(message,strTipo);
-
-
-
-    }
-*/
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)

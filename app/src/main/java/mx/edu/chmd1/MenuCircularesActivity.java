@@ -1,10 +1,15 @@
 package mx.edu.chmd1;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,52 +34,43 @@ public class MenuCircularesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_principal);
 
         videoview = findViewById(R.id.videoView);
-        videoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-                videoview.start();
-            }
-        });
+        videoview.setOnCompletionListener(mp -> videoview.start());
         Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.video_app);
         videoview.setVideoURI(uri);
         videoview.start();
 
         lstPrincipal = findViewById(R.id.lstPrincipal);
         llenarMenu();
-        lstPrincipal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Menu m = (Menu)lstPrincipal.getItemAtPosition(position);
-                if(m.getIdMenu()==1){
-                    //Intent intent = new Intent(PrincipalActivity.this,MainActivity.class);
-                    Intent intent = new Intent(MenuCircularesActivity.this, PadresActivity.class);
-                    startActivity(intent);
-                }
-                //web
-                if(m.getIdMenu()==2){
-                    Intent intent = new Intent(MenuCircularesActivity.this, AlumnosActivity.class);
-                    startActivity(intent);
-                }
-
-                if(m.getIdMenu()==3){
-                    /*Intent intent = new Intent(MenuCircularesActivity.this, AlumnosActivity.class);
-                    startActivity(intent);*/
-                    Toast.makeText(getApplicationContext(),"En construcción",Toast.LENGTH_LONG).show();
-                }
-
-                if(m.getIdMenu()==4){
-                    /*Intent intent = new Intent(MenuCircularesActivity.this, AlumnosActivity.class);
-                    startActivity(intent);*/
-                    Toast.makeText(getApplicationContext(),"En construcción",Toast.LENGTH_LONG).show();
-                }
-
-                if(m.getIdMenu()==5){
-                    Intent intent = new Intent(MenuCircularesActivity.this, CircularActivity.class);
-                    startActivity(intent);
-                    //Toast.makeText(getApplicationContext(),"En construcción",Toast.LENGTH_LONG).show();
-                }
-
-
+        lstPrincipal.setOnItemClickListener((parent, view, position, id) -> {
+            Menu m = (Menu)lstPrincipal.getItemAtPosition(position);
+            if(m.getIdMenu()==1){
+                //Intent intent = new Intent(PrincipalActivity.this,MainActivity.class);
+                Intent intent = new Intent(MenuCircularesActivity.this, PadresActivity.class);
+                startActivity(intent);
             }
+            //web
+            if(m.getIdMenu()==2){
+                Intent intent = new Intent(MenuCircularesActivity.this, AlumnosActivity.class);
+                startActivity(intent);
+            }
+
+            if(m.getIdMenu()==3){
+               Toast.makeText(getApplicationContext(),"En construcción",Toast.LENGTH_LONG).show();
+            }
+
+            if(m.getIdMenu()==4){
+                /*Intent intent = new Intent(MenuCircularesActivity.this, AlumnosActivity.class);
+                startActivity(intent);*/
+                Toast.makeText(getApplicationContext(),"En construcción",Toast.LENGTH_LONG).show();
+            }
+
+            if(m.getIdMenu()==5){
+                Intent intent = new Intent(MenuCircularesActivity.this, CircularActivity.class);
+                startActivity(intent);
+                //Toast.makeText(getApplicationContext(),"En construcción",Toast.LENGTH_LONG).show();
+            }
+
+
         });
     }
 

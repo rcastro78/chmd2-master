@@ -25,6 +25,27 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/03739508f9b3092e646e7c5839f4cb36/jetified-play-services-appinvite-17.0.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/03739508f9b3092e646e7c5839f4cb36/jetified-play-services-appinvite-17.0.0/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/03739508f9b3092e646e7c5839f4cb36/jetified-play-services-appinvite-17.0.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fcbc1e43f4a4dfe634ebc5f3374f7b83/jetified-play-services-appinvite-17.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fcbc1e43f4a4dfe634ebc5f3374f7b83/jetified-play-services-appinvite-17.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fcbc1e43f4a4dfe634ebc5f3374f7b83/jetified-play-services-appinvite-17.0.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aca76745d0619f578c10b5b0653547ff/jetified-play-services-appinvite-17.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aca76745d0619f578c10b5b0653547ff/jetified-play-services-appinvite-17.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aca76745d0619f578c10b5b0653547ff/jetified-play-services-appinvite-17.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6f886a012d1fb9300752a65567ddf845/jetified-play-services-appinvite-17.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6f886a012d1fb9300752a65567ddf845/jetified-play-services-appinvite-17.0.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6f886a012d1fb9300752a65567ddf845/jetified-play-services-appinvite-17.0.0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c3d413d84788d2ad629d00f3f8058655/jetified-play-services-appinvite-17.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c3d413d84788d2ad629d00f3f8058655/jetified-play-services-appinvite-17.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c3d413d84788d2ad629d00f3f8058655/jetified-play-services-appinvite-17.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2b4a5bdbd721f5f1d322f982e39792f1/jetified-play-services-appinvite-17.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2b4a5bdbd721f5f1d322f982e39792f1/jetified-play-services-appinvite-17.0.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/2b4a5bdbd721f5f1d322f982e39792f1/jetified-play-services-appinvite-17.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d42755231be9bd1354d924330750cc65/jetified-play-services-appinvite-17.0.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d42755231be9bd1354d924330750cc65/jetified-play-services-appinvite-17.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d42755231be9bd1354d924330750cc65/jetified-play-services-appinvite-17.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6cd7e761b029f4862a9eae40e579e52b/jetified-play-services-appinvite-17.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6cd7e761b029f4862a9eae40e579e52b/jetified-play-services-appinvite-17.0.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6cd7e761b029f4862a9eae40e579e52b/jetified-play-services-appinvite-17.0.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.gms/play-services-appinvite/17.0.0/b6b02427b5466c51d1b8fb957c497a84f5b421/play-services-appinvite-17.0.0-javadoc.jar!/" />

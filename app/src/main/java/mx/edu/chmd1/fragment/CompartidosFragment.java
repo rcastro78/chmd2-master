@@ -186,8 +186,7 @@ public class CompartidosFragment extends Fragment {
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
 
-                Toast.makeText(getActivity().getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 

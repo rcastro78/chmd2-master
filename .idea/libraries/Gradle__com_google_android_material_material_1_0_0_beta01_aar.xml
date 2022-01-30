@@ -4,6 +4,7 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/06cdab8dbb1c67cc17f99e43e2a22ab8/material-1.0.0-beta01/annotations.zip!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e84fb4246a2ec98945ee3b26b0b2d702/material-1.0.0-beta01/annotations.zip!/" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9910f4ca5c0a5f8759d0a567c217fa9a/material-1.0.0-beta01/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39b479f954f073047a335e6f85379436/material-1.0.0-beta01/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/06cdab8dbb1c67cc17f99e43e2a22ab8/material-1.0.0-beta01/res" />
@@ -15,6 +16,9 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9910f4ca5c0a5f8759d0a567c217fa9a/material-1.0.0-beta01/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9910f4ca5c0a5f8759d0a567c217fa9a/material-1.0.0-beta01/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9910f4ca5c0a5f8759d0a567c217fa9a/material-1.0.0-beta01/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39b479f954f073047a335e6f85379436/material-1.0.0-beta01/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39b479f954f073047a335e6f85379436/material-1.0.0-beta01/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/39b479f954f073047a335e6f85379436/material-1.0.0-beta01/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

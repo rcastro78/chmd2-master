@@ -225,14 +225,9 @@ public class NotificacionesFragment extends Fragment {
                 intent.putExtra("horaInicioIcs",circular.getHoraInicialIcs());
                 intent.putExtra("horaFinIcs",circular.getHoraFinalIcs());
                 intent.putExtra("adjunto",circular.getAdjunto());
-                if(!circular.getNivel().equalsIgnoreCase("null")){
-                    intent.putExtra("nivel",circular.getNivel());
-                }else{
-                    intent.putExtra("nivel","");
-                }
-
-
+                intent.putExtra("nivel",circular.getPara());
                 getActivity().startActivity(intent);
+                getActivity().finish();
 
             }
         });
@@ -497,8 +492,10 @@ public class NotificacionesFragment extends Fragment {
                             Log.w("GUARDANDO",""+dbCircular.save());
                         }
                         try{
-                            adapter = new NotificacionAdapter(getActivity(),circulares);
-                            lstCirculares.setAdapter(adapter);
+                            if(circulares.size()>0) {
+                                adapter = new NotificacionAdapter(getActivity(), circulares);
+                                lstCirculares.setAdapter(adapter);
+                            }
                         }catch(Exception ex){
                             Toast.makeText(getActivity().getApplicationContext(),ex.getMessage(),Toast.LENGTH_LONG).show();
                         }
@@ -513,8 +510,7 @@ public class NotificacionesFragment extends Fragment {
             {
                 VolleyLog.d("ERROR", "Error: " + error.getMessage());
 
-                Toast.makeText(getActivity().getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
