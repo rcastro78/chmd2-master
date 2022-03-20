@@ -1107,13 +1107,7 @@ public class CircularDetalleActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if(primerClickAnt==0){
-                    if(pos>0)
-                        pos = pos - 1;
-                    else
-                        pos = 0;
-                    primerClickAnt = 1;
-                }
+
 
                 progressBar.setVisibility(View.VISIBLE);
                 wvwDetalleCircular.setVisibility(View.GONE);
@@ -1569,10 +1563,8 @@ public class CircularDetalleActivity extends AppCompatActivity {
             //obtener la posición del id
             //Toast.makeText(getApplicationContext(),""+circulares.size(),Toast.LENGTH_LONG).show();
 
-            if(primerClickNext==0){
-                pos = pos + 1;
-                primerClickNext = 1;
-            }
+
+
 
             progressBar.setVisibility(View.VISIBLE);
             wvwDetalleCircular.setVisibility(View.GONE);
@@ -1580,12 +1572,12 @@ public class CircularDetalleActivity extends AppCompatActivity {
             try{
                 if(pos<circulares.size()){
                     for(int i=0; i<circulares.size(); i++){
-                        if(circulares.get(i).getIdCircular()==idCircular)
+                        if(circulares.get(i).getIdCircular().equals(idCircular))
                             pos=i;
                     }
-
+                    pos = pos + 1;
                     //despues de obtenerla pasar a la siguiente circular
-                    pos = pos+1;
+
                     idCircular = circulares.get(pos).getIdCircular();
                     temaIcs = circulares.get(pos).getTemaIcs();
                     fechaIcs = circulares.get(pos).getFechaIcs();

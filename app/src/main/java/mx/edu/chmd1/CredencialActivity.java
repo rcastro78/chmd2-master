@@ -46,6 +46,9 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -169,19 +172,22 @@ TextView lblNombrePadre,lblPadre,lblNumFam;
         lblNumFam.setTypeface(tf);
         String fotoUrl = sharedPreferences.getString("fotoCredencial","");
 
-        Glide.with(this)
+        Picasso.with(this)
                 .load(URL_FIRMA)
                 .placeholder(R.drawable.logo2)
                 .error(R.drawable.logo2)
-
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(firma);
 
         if(fotoCredencial2.length()>0){
 
-            Glide.with(this)
+            Picasso.with(this)
                     .load(BASE_URL_FOTO2+fotoCredencial2)
                     .placeholder(R.drawable.icon_non_profile)
                     .error(R.drawable.icon_non_profile)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
                     //.transform(new Transformacion(90))
                     .into(imgFotoPadre);
 
@@ -212,11 +218,12 @@ TextView lblNombrePadre,lblPadre,lblNumFam;
                         if (fotoUrl.contains(".JPG"))
                             fotoUrl.replace(".JPG", ".jpg");
                     }
-                    Glide.with(this)
+                    Picasso.with(this)
                             .load(fotoUrl)
                             .placeholder(R.drawable.icon_non_profile)
                             .error(R.drawable.icon_non_profile)
-
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .networkPolicy(NetworkPolicy.NO_CACHE)
                             .into(imgFotoPadre);
                 } catch (Exception ex) {
                     Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_LONG).show();
@@ -264,11 +271,12 @@ TextView lblNombrePadre,lblPadre,lblNumFam;
                 }
 
 
-                Glide.with(this)
+                Picasso.with(this)
                         .load(BASE_URL_FOTO + fotoUrl)
                         .placeholder(R.drawable.logo2)
                         .error(R.drawable.icon_non_profile)
-
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE)
                         .into(imgFotoPadre);
 
 
@@ -313,8 +321,21 @@ TextView lblNombrePadre,lblPadre,lblNumFam;
                     Toast.makeText(getApplicationContext(), "Subiendo tu foto...No cierres esta pantalla", Toast.LENGTH_LONG).show();
 
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
                     bmp.compress(Bitmap.CompressFormat.JPEG,90,bos);
 
+                    if(bmp.getWidth()>240) {
+
+
+                        float aspectRatio = bmp.getWidth() /
+                                (float) bmp.getHeight();
+                        int width = 240;
+                        int height = Math.round(width / aspectRatio);
+
+                        bmp = Bitmap.createScaledBitmap(
+                                bmp, width, height, false);
+
+                    }
 
                     String filename=String.valueOf(idUsuario);
                     byte[] data = bos.toByteArray();

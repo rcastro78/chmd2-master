@@ -46,6 +46,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/79d6be94d4466fd6c60961ded9c367a8/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/79d6be94d4466fd6c60961ded9c367a8/jetified-bitlysdk-1.0.1/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/79d6be94d4466fd6c60961ded9c367a8/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5ad557949d9345ae1d5f7a679b1b262/jetified-bitlysdk-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5ad557949d9345ae1d5f7a679b1b262/jetified-bitlysdk-1.0.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a5ad557949d9345ae1d5f7a679b1b262/jetified-bitlysdk-1.0.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

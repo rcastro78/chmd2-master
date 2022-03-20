@@ -114,11 +114,7 @@ public CircularesAdapter adapter = null;
         idUsuarioCredencial = sharedPreferences.getString("idUsuarioCredencial","0");
         int idUsuario = Integer.parseInt(idUsuarioCredencial);
         descarga = sharedPreferences.getInt("descarga",0);
-        //sustituir por descarga
-        //if(descarga==0) {
-            //new Delete().from(DBCircular.class).execute();
-         //   getCirculares(idUsuarioCredencial);
-        //}else
+
             leeCirculares(idUsuario);
         }
 
@@ -130,9 +126,6 @@ public CircularesAdapter adapter = null;
         idUsuarioCredencial = sharedPreferences.getString("idUsuarioCredencial","0");
         idUsuario = Integer.parseInt(idUsuarioCredencial);
         iCircularesCHMD = APIUtils.getCircularesService();
-
-        //if(!hayConexion())
-        //    getCircularesSinConexion();
 
 
         View v = inflater.inflate(R.layout.fragment_circulares, container, false);
