@@ -30,6 +30,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -561,6 +562,8 @@ public class CircularDetalleActivity extends AppCompatActivity {
             });
 
 
+        wvwDetalleCircular.setWebChromeClient(new WebChromeClient());
+        wvwDetalleCircular.setWebViewClient(new WebViewClient());
         wvwDetalleCircular.getSettings().setJavaScriptEnabled(true);
         wvwDetalleCircular.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         wvwDetalleCircular.setWebViewClient(new WebViewClient() {
@@ -1498,6 +1501,7 @@ public class CircularDetalleActivity extends AppCompatActivity {
                                     "                                                             </div>\n" +
                                     "                                                          ");
                         }
+
 
 
                         wvwDetalleCircular.loadDataWithBaseURL("",
